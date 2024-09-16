@@ -1,0 +1,6 @@
+@NogometniKlubAPP_HostAddress = http://localhost:5274
+
+GET {{NogometniKlubAPP_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
