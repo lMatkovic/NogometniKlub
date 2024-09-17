@@ -10,6 +10,6 @@ namespace NogometniKlubAPP.Data
             
         }
 
-        public DbSet<Klub> Klub { get; set; }
+        public DbSet<Klub> Klubovi { get; set; }
     }
 }
