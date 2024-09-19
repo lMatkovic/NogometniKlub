@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NogometniKlubAPP.Data;
 using NogometniKlubAPP.Models;
 
@@ -9,12 +8,13 @@ namespace NogometniKlubAPP.Controllers
     [ApiController]
     [Route("api/v1/[Controller]")]
 
-    public class IgracController:ControllerBase
+    public class UtakmicaController:ControllerBase
     {
+
 
         private readonly NogometniKlubContext _context;
 
-        public IgracController(NogometniKlubContext context)
+        public UtakmicaController(NogometniKlubContext context)
         {
             _context = context;
         }
@@ -23,7 +23,7 @@ namespace NogometniKlubAPP.Controllers
 
         public IActionResult Get()
         {
-            return Ok(_context.Igraci);
+            return Ok(_context.Klubovi);
         }
 
 
@@ -32,7 +32,7 @@ namespace NogometniKlubAPP.Controllers
 
         public IActionResult GetBySifra(int sifra)
         {
-            return Ok(_context.Igraci.Find(sifra));
+            return Ok(_context.Utakmice.Find(sifra));
         }
 
 
@@ -42,29 +42,27 @@ namespace NogometniKlubAPP.Controllers
 
         [HttpPost]
 
-        public IActionResult Post(Igrac igrac)
+        public IActionResult Post(Utakmica utakmica)
         {
-            _context.Igraci.Add(igrac);
+            _context.Utakmice.Add(utakmica);
             _context.SaveChanges();
-            return StatusCode(StatusCodes.Status201Created, igrac);
+            return StatusCode(StatusCodes.Status201Created, utakmica);
         }
 
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("appication/json")]
 
-        public IActionResult Put(int sifra, Igrac igrac)
+        public IActionResult Put(int sifra, Utakmica utakmica)
         {
 
-            var igracBaza = _context.Igraci.Find(sifra);
+            var utakmicaBaza = _context.Utakmice.Find(sifra);
 
-            igracBaza.Ime = igrac.Ime;
-            igracBaza.Prezime = igrac.Prezime;
-            igracBaza.DatumRodjenja = igrac.DatumRodjenja;
-            igracBaza.Pozicija = igrac.Pozicija;
-            igracBaza.BrojDresa = igrac.BrojDresa;
+            utakmicaBaza.Datum = utakmica.Datum;
+            utakmicaBaza.Lokacija = utakmica.Lokacija;
+            utakmicaBaza.Stadion = utakmica.Stadion;
 
-            _context.Igraci.Update(igracBaza);
+            _context.Utakmice.Update(utakmicaBaza);
             _context.SaveChanges();
 
             return Ok(new { poruka = "Uspješno promjenjeno" });
@@ -79,18 +77,14 @@ namespace NogometniKlubAPP.Controllers
         [Produces("application/json")]
         public IActionResult Delete(int sifra)
         {
-            var igracbaza = _context.Igraci.Find(sifra);
+            var utakmicabaza = _context.Utakmice.Find(sifra);
 
-            _context.Igraci.Remove(igracbaza);
+            _context.Utakmice.Remove(utakmicabaza);
             _context.SaveChanges();
 
             return Ok(new { poruka = "Uspješno obrisano" });
 
         }
-
-
-
-
 
 
     }

@@ -11,5 +11,8 @@ namespace NogometniKlubAPP.Data
         }
 
         public DbSet<Klub> Klubovi { get; set; }
+        public DbSet<Igrac> Igraci { get; set; }
+        public DbSet<Trener> Treneri { get; set; }
+        public DbSet<Utakmica> Utakmice { get; set; }
     }
 }

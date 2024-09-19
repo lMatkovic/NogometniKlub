@@ -21,7 +21,7 @@ namespace NogometniKlubAPP.Controllers
 
         public IActionResult Get() 
         {
-            return Ok(_context.Klub);
+            return Ok(_context.Klubovi);
         }
 
 
@@ -30,7 +30,7 @@ namespace NogometniKlubAPP.Controllers
 
         public IActionResult GetBySifra(int sifra)
         {
-            return Ok(_context.Klub.Find(sifra));
+            return Ok(_context.Klubovi.Find(sifra));
         }
 
 
@@ -42,7 +42,7 @@ namespace NogometniKlubAPP.Controllers
 
         public IActionResult Post(Klub klub)
         {
-            _context.Klub.Add(klub);
+            _context.Klubovi.Add(klub);
             _context.SaveChanges();
             return StatusCode(StatusCodes.Status201Created, klub);
         }
@@ -54,7 +54,7 @@ namespace NogometniKlubAPP.Controllers
         public IActionResult Put(int sifra, Klub klub)
         {
 
-            var klubBaza = _context.Klub.Find(sifra);
+            var klubBaza = _context.Klubovi.Find(sifra);
 
             klubBaza.Naziv = klub.Naziv;
             klubBaza.Osnovan = klub.Osnovan;
@@ -63,7 +63,7 @@ namespace NogometniKlubAPP.Controllers
             klubBaza.Drzava = klub.Drzava;
             klubBaza.Liga = klub.Liga;
 
-            _context.Klub.Update(klubBaza);
+            _context.Klubovi.Update(klubBaza);
             _context.SaveChanges();
 
             return Ok(new { poruka = "Uspješno promjenjeno" });
@@ -75,26 +75,17 @@ namespace NogometniKlubAPP.Controllers
 
         [HttpDelete]
         [Route("{sifra:int}")]
-        [Produces("appication/json")]
-
+        [Produces("application/json")]
         public IActionResult Delete(int sifra)
         {
+            var klubBaza = _context.Klubovi.Find(sifra);
 
-            var klubBaza = _context.Klub.Find(sifra);
-
-            
-
-            _context.Klub.Remove(klubBaza);
+            _context.Klubovi.Remove(klubBaza);
             _context.SaveChanges();
 
             return Ok(new { poruka = "Uspješno obrisano" });
 
-
-
-
         }
-
-
 
 
 

@@ -7,7 +7,7 @@
         public DateTime? DatumRodjenja { get; set; }
         public string? Pozicija { get; set; }
         public int? BrojDresa { get; set; }
-        public Klub? klubovi { get; set; }
+       
 
 
 
