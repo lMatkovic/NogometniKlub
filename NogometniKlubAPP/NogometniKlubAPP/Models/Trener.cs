@@ -9,10 +9,6 @@
         public string? Nacionalnost { get; set; }
         public string? Iskustvo { get; set; }
 
-
-
-
-
     }
     */
 }

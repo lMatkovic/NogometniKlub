@@ -9,9 +9,6 @@
         public string? Pozicija { get; set; }
         public int? BrojDresa { get; set; }
        
-
-
-
     }
     */
 }
