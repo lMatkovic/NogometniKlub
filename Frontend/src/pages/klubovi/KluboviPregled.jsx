@@ -43,7 +43,7 @@ export default function KluboviPregled(){
                         <td>
                             {klub.naziv}
                         </td>
-                        <td>
+                        <td className="sredina" > 
                             {klub.osnovan}
                         </td>
                         <td>
