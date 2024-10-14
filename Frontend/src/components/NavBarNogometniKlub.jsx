@@ -16,7 +16,7 @@ export default function NavBarNogometniKlub(){
 
                 <Navbar.Brand className='ruka'
                 onClick={()=>navigate(RouteNames.HOME)}
-                >NogometniKlubAPP</Navbar.Brand>
+                >Nogometni Klub</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import KlubService from "../../services/KlubService"
-import { Table } from "react-bootstrap"
+import { Button, Table } from "react-bootstrap"
 
 
 export default function KluboviPregled(){
@@ -21,7 +21,24 @@ export default function KluboviPregled(){
         dohvatiKlubove()
     },[])
     
-    
+    function obrisi(sifra){
+        if(!confirm('Sigurno obrisati')){
+            return;
+        }
+        brisanjeKluba(sifra)
+    }
+
+    async function brisanjeKluba(sifra) {
+        
+        const odgovor = await KlubService.brisanje(sifra);
+        if(odgovor.greska){
+            alert(odgovor.poruka)
+            return
+        }
+        dohvatiKlubove();
+    }
+
+
     
     return (
         <>
@@ -58,7 +75,16 @@ export default function KluboviPregled(){
                         <td>
                             {klub.liga}
                         </td>
-                        <td>Akcija</td>
+                        <td>
+                            <Button
+                            variant='danger'
+                            onClick ={()=>obrisi(klub.sifra)}
+                            >
+
+                                Obriši
+                            </Button>
+                            
+                        </td>
 
                     </tr>
 

@@ -5,16 +5,29 @@ import { HttpService } from "./HttpService";
 async function get(){
     return await HttpService.get('/Klub')
     .then((odgovor)=>{
-        console.log(odgovor.data)
-        console.table(odgovor.data)
+       // console.log(odgovor.data)
+       // console.table(odgovor.data)
         return {greska: false, poruka: odgovor.data}
     })
     .catch((e)=>{
-        console.log(e)
+       // console.log(e)
         return {greska: true, poruka: 'Problem kod dohvaćanja klubova'}
     })
 }
 
+async function brisanje(sifra){
+    return await HttpService.delete('/Klub/' + sifra)
+    .then(()=>{
+        return {greska: false, poruka: 'Obrisano'}
+    })
+    .catch(()=>{
+        return {greska: true, poruka: 'Problem kod brisanja kluba'}   
+    })
+}
+
+
+
 export default {
-    get
+    get,
+    brisanje
 }
