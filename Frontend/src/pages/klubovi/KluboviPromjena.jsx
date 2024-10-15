@@ -28,11 +28,19 @@ export default function KluboviPromjena(){
         dohvatiKlub();
     },[])
 
+    async function promjena(klub) {
+        const odgovor = await KlubService.promjena(routeParams.sifra,klub)
+        if(odgovor.greska){
+            alert(odgovor.poruka)
+            return;
+        }
+        navigate(RouteNames.KLUB_PREGLED)
+    }
+
     function obradiSubmit(e){ 
         e.preventDefault(); 
         let podaci = new FormData(e.target)
-        //console.log(podaci.get('naziv'))
-        dodaj({
+        promjena({
             naziv: podaci.get('naziv'),
             osnovan: parseInt(podaci.get('osnovan')),
             stadion: podaci.get('stadion'),

@@ -36,8 +36,19 @@ async function brisanje(sifra){
 }
 
 
+async function  promjena(sifra,klub){
+    return await HttpService.put('/Klub/' + sifra,klub)
+    .then(()=>{
+        return {greska: false, poruka: 'Promjenjeno'}
+    })
+    .catch(()=>{
+        return {greska: true, poruka: 'Problem kod promjene kluba'}   
+    })
+}
+
+
 async function getBySifra(sifra){
-    return await HttpService.get('/Klub/' + sifra)
+    return await HttpService.get('/Klub/'+sifra)
     .then((odgovor)=>{
         return {greska: false, poruka: odgovor.data}
     })
@@ -55,5 +66,6 @@ export default {
     get,
     brisanje,
     dodaj,
-    getBySifra
+    getBySifra,
+    promjena
 }

@@ -49,7 +49,8 @@ namespace NogometniKlubAPP.Controllers
 
         [HttpPut]
         [Route("{sifra:int}")]
-        [Produces("appication/json")]
+        [Produces("application/json")]
+
 
         public IActionResult Put(int sifra, Klub klub)
         {
