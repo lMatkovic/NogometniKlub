@@ -36,6 +36,17 @@ async function brisanje(sifra){
 }
 
 
+async function getBySifra(sifra){
+    return await HttpService.get('/Klub/' + sifra)
+    .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch((e)=>{
+        return {greska: true, poruka: 'Problem kod dohvaćanja kluba s šifrom '
+        +sifra}
+    })
+}
+
 
 
 
@@ -43,5 +54,6 @@ async function brisanje(sifra){
 export default {
     get,
     brisanje,
-    dodaj
+    dodaj,
+    getBySifra
 }

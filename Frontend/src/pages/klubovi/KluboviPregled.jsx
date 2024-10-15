@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react"
 import KlubService from "../../services/KlubService"
 import { Button, Table } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { RouteNames } from "../../constants"
 
 
 export default function KluboviPregled(){
+
+
+    const navigate = useNavigate()
 
     const[klubovi, setKlubovi] = useState()
     
@@ -86,6 +89,13 @@ export default function KluboviPregled(){
                             >
 
                                 Obriši
+                            </Button>
+                            &nbsp;&nbsp;&nbsp;
+                            <Button
+                            onClick={()=>navigate(`/klubovi/${klub.sifra}`)}
+                            >
+
+                                Promjena
                             </Button>
                             
                         </td>
