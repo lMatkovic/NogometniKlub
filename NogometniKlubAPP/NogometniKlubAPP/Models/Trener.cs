@@ -1,7 +1,7 @@
 ﻿namespace NogometniKlubAPP.Models
 {
-    /*
-    public class Trener 
+    
+    public class Trener : Entitet
     {
 
         public string? Ime { get; set; }
@@ -10,5 +10,5 @@
         public string? Iskustvo { get; set; }
 
     }
-    */
+    
 }
