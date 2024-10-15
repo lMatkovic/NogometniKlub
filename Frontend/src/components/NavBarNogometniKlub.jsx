@@ -13,7 +13,6 @@ export default function NavBarNogometniKlub(){
     return(
         <>
             <Navbar expand="lg" className="bg-body-tertiary">
-
                 <Navbar.Brand className='ruka'
                 onClick={()=>navigate(RouteNames.HOME)}
                 >Nogometni Klub</Navbar.Brand>

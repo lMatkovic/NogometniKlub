@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import KlubService from "../../services/KlubService"
 import { Button, Table } from "react-bootstrap"
+import { Link } from "react-router-dom"
+import { RouteNames } from "../../constants"
 
 
 export default function KluboviPregled(){
@@ -42,6 +44,8 @@ export default function KluboviPregled(){
     
     return (
         <>
+        <Link to={RouteNames.KLUB_NOVI}
+        className="btn btn-success siroko">Dodaj novi klub</Link>
         <Table striped bordered hover responsive>
             <thead>
                 <tr>

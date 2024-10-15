@@ -5,7 +5,8 @@ import NavBarNogometniKlub from './components/NavBarNogometniklub';
 import { Route, Routes } from 'react-router-dom';
 import { RouteNames } from './constants';
 import Pocetna from './pages/Pocetna';
-import KluboviPregled from './pages/Klubovi/KluboviPregled';
+import KluboviPregled from './pages/klubovi/KluboviPregled';
+import KluboviDodaj from './pages/klubovi/KluboviDodaj';
 
 
 
@@ -21,6 +22,9 @@ function App() {
         <Route path={RouteNames.HOME} element={<Pocetna/>} />
 
         <Route path={RouteNames.KLUB_PREGLED} element={<KluboviPregled/>} />
+        <Route path={RouteNames.KLUB_NOVI} element={<KluboviDodaj/>} />
+
+
 
          
 

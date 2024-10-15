@@ -15,6 +15,16 @@ async function get(){
     })
 }
 
+async function  dodaj(klub){
+    return await HttpService.post('/Klub',klub)
+    .then(()=>{
+        return {greska: false, poruka: 'Dodano'}
+    })
+    .catch(()=>{
+        return {greska: true, poruka: 'Problem kod dodavanja kluba'}   
+    })
+}
+
 async function brisanje(sifra){
     return await HttpService.delete('/Klub/' + sifra)
     .then(()=>{
@@ -27,7 +37,11 @@ async function brisanje(sifra){
 
 
 
+
+
+
 export default {
     get,
-    brisanje
+    brisanje,
+    dodaj
 }
