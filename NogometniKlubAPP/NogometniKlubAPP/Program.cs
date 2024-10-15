@@ -42,10 +42,14 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-app.UseCors("CorsPolicy");
-
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseStaticFiles();
+app.UseDefaultFiles();
+app.MapFallbackToFile("index.html");
+
+app.UseCors("CorsPolicy");
 
 app.Run();
