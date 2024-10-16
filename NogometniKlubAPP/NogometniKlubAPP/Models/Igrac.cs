@@ -1,6 +1,6 @@
 ﻿namespace NogometniKlubAPP.Models
 {
-    /*
+    
     public class Igrac 
     {
         public string? Ime { get; set; }
@@ -10,5 +10,5 @@
         public int? BrojDresa { get; set; }
        
     }
-    */
+    
 }
