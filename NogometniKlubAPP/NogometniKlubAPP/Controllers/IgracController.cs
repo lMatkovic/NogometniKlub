@@ -5,6 +5,7 @@ using NogometniKlubAPP.Models;
 
 namespace NogometniKlubAPP.Controllers
 {
+    /*
 
     [ApiController]
     [Route("api/v1/[Controller]")]
@@ -94,5 +95,6 @@ namespace NogometniKlubAPP.Controllers
 
 
     }
+    */
 
 }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NogometniKlubAPP.Data;
+using NogometniKlubAPP.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,12 @@ builder.Services.AddCors(opcije =>
             builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
     );
 });
+
+
+
+
+builder.Services.AddAutoMapper(typeof(NogometniKlubMappingProfile));
+
 
 var app = builder.Build();
 
