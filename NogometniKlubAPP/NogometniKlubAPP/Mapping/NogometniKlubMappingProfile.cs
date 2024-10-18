@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NogometniKlubAPP.Models;
 using NogometniKlubAPP.Models.DTO;
+using System.Text.RegularExpressions;
 
 namespace NogometniKlubAPP.Mapping
 {
@@ -12,8 +13,20 @@ namespace NogometniKlubAPP.Mapping
             CreateMap<Klub, KlubDTORead>();
             CreateMap<KlubDTOinsertUpdate, Klub>();
 
-            CreateMap<Igrac, IgracDTORead>();
+
+
+            CreateMap<Igrac, IgracDTORead>()
+              .ForCtorParam(
+                  "KlubNaziv",
+                  opt => opt.MapFrom(src => src.Klub.Naziv)
+              );
+            CreateMap<Igrac, IgracDTOinsertUpdate>().ForMember(
+                    dest => dest.KlubSifra,
+                    opt => opt.MapFrom(src => src.Klub.Sifra)
+                );
             CreateMap<IgracDTOinsertUpdate, Igrac>();
+
+
 
 
 

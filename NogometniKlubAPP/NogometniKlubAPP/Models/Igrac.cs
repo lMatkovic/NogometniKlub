@@ -1,9 +1,14 @@
-﻿namespace NogometniKlubAPP.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace NogometniKlubAPP.Models
 {
     
-    public class Igrac 
+    public class Igrac : Entitet
     {
         public string? Ime { get; set; }
+        
+        [ForeignKey("klub")]
+        public required Klub Klub { get; set; }
         public string? Prezime { get; set; }
         public DateTime? DatumRodjenja { get; set; }
         public string? Pozicija { get; set; }
