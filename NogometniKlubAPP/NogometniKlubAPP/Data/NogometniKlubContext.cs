@@ -15,14 +15,17 @@ namespace NogometniKlubAPP.Data
 
             public DbSet<Klub> Klubovi { get; set; }
             public DbSet<Igrac> Igraci { get; set; }
+            public DbSet<Trener> Treneri { get; set; }
 
-            protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            // implementacija veze 1:n
+            
                 modelBuilder.Entity<Igrac>().HasOne(g => g.Klub);
+                modelBuilder.Entity<Trener>().HasOne(g => g.Klub);
 
-          
+
         }
 
 

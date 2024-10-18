@@ -28,6 +28,19 @@ namespace NogometniKlubAPP.Mapping
 
 
 
+            CreateMap<Trener, TrenerDTORead>()
+              .ForCtorParam(
+                  "KlubNaziv",
+                  opt => opt.MapFrom(src => src.Klub.Naziv)
+              );
+            CreateMap<Trener, TrenerDTOinsertUpdate>().ForMember(
+                    dest => dest.KlubSifra,
+                    opt => opt.MapFrom(src => src.Klub.Sifra)
+                );
+            CreateMap<TrenerDTOinsertUpdate, Trener>();
+
+
+
 
 
         }

@@ -55,7 +55,7 @@ namespace NogometniKlubAPP.Controllers
             }
             if (e == null)
             {
-                return NotFound(new { poruka = "Grupa ne postoji u bazi" });
+                return NotFound(new { poruka = "Igrac ne postoji u bazi" });
             }
 
             return Ok(_mapper.Map<IgracDTOinsertUpdate>(e));
@@ -80,7 +80,7 @@ namespace NogometniKlubAPP.Controllers
             }
             if (es == null)
             {
-                return NotFound(new { poruka = "Klub  ne postoji u bazi" });
+                return NotFound(new { poruka = $"Klub sa šifrom {dto.KlubSifra} nije pronađen." });
             }
 
             try
@@ -136,7 +136,7 @@ namespace NogometniKlubAPP.Controllers
                 }
                 if (es == null)
                 {
-                    return NotFound(new { poruka = "Klub ne postoji u bazi" });
+                    return NotFound(new { poruka = $"Klub sa šifrom {dto.KlubSifra} nije pronađen." });
                 }
 
                 e = _mapper.Map(dto, e);
