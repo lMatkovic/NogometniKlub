@@ -41,7 +41,14 @@ namespace NogometniKlubAPP.Mapping
 
 
 
-
+            CreateMap<Utakmica, UtakmicaDTORead>()
+             .ForCtorParam(
+                 "DomaciNaziv",
+                 opt => opt.MapFrom(src => src.Domaci.Naziv)
+             ).ForCtorParam(
+                 "GostujuciNaziv",
+                 opt => opt.MapFrom(src => src.Gostujuci.Naziv)
+             );
 
         }
 

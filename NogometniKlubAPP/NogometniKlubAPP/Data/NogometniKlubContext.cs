@@ -16,6 +16,8 @@ namespace NogometniKlubAPP.Data
             public DbSet<Klub> Klubovi { get; set; }
             public DbSet<Igrac> Igraci { get; set; }
             public DbSet<Trener> Treneri { get; set; }
+            public DbSet<Utakmica> Utakmice { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,6 +26,8 @@ namespace NogometniKlubAPP.Data
             
                 modelBuilder.Entity<Igrac>().HasOne(g => g.Klub);
                 modelBuilder.Entity<Trener>().HasOne(g => g.Klub);
+                modelBuilder.Entity<Utakmica>().HasOne(g => g.Domaci);
+                modelBuilder.Entity<Utakmica>().HasOne(g => g.Gostujuci);
 
 
         }

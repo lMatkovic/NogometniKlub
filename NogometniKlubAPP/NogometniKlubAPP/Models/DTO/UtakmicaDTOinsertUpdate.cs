@@ -1,13 +1,12 @@
 ﻿namespace NogometniKlubAPP.Models.DTO
 {
-    public record UtakmicaDTORead(
-        int Sifra,
+    public record UtakmicaDTOinsertUpdate(
         DateTime Datum,
         string Lokacija,
         string Stadion,
         string DomaciNaziv,
         string GostujuciNaziv
         );
-
-
+    
+    
 }
