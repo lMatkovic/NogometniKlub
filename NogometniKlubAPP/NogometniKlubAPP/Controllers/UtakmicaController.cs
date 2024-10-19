@@ -23,7 +23,7 @@ namespace NogometniKlubAPP.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<UtakmicaDTORead>>(_context.Utakmice.Include(g => g.Domaci)));
+                return Ok(_mapper.Map<List<UtakmicaDTORead>>(_context.Utakmice.Include(g => g.Domaci).Include(g => g.Gostujuci)));
 
                 
             }
@@ -58,11 +58,11 @@ namespace NogometniKlubAPP.Controllers
                 return NotFound(new { poruka = "Utakmica ne postoji u bazi" });
             }
 
-            return Ok(_mapper.Map<TrenerDTOinsertUpdate>(e));
+            return Ok(_mapper.Map<UtakmicaDTOinsertUpdate>(e));
         }
 
         [HttpPost]
-        public IActionResult Post(TrenerDTOinsertUpdate dto)
+        public IActionResult Post(UtakmicaDTOinsertUpdate dto)
         {
             if (!ModelState.IsValid)
             {
@@ -72,7 +72,7 @@ namespace NogometniKlubAPP.Controllers
             Klub? es;
             try
             {
-                es = _context.Klubovi.Find(dto.KlubSifra);
+                es = _context.Klubovi.Find(dto.DomaciSifra);
             }
             catch (Exception ex)
             {
@@ -80,7 +80,7 @@ namespace NogometniKlubAPP.Controllers
             }
             if (es == null)
             {
-                return NotFound(new { poruka = $"Klub sa šifrom {dto.KlubSifra} nije pronađen." });
+                return NotFound(new { poruka = $"Klub sa šifrom {dto.DomaciSifra} nije pronađen." });
             }
 
             try

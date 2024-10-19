@@ -4,8 +4,8 @@
         DateTime Datum,
         string Lokacija,
         string Stadion,
-        string DomaciNaziv,
-        string GostujuciNaziv
+        int DomaciSifra,
+        int GostujuciSifra
         );
     
     
