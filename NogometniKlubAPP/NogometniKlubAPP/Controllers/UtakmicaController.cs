@@ -9,11 +9,11 @@ namespace NogometniKlubAPP.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class UtakmicaController(NogometniKlubContext context, IMapper mapper) : NogometniKlubController(context, mapper)
+    public class UtakmicaController : NogometniKlubController
     {
+        public UtakmicaController(NogometniKlubContext context, IMapper mapper) : base(context, mapper) { }
 
-
-        // 
+        
         [HttpGet]
         public ActionResult<List<UtakmicaDTORead>> Get()
         {
@@ -23,44 +23,52 @@ namespace NogometniKlubAPP.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<UtakmicaDTORead>>(_context.Utakmice.Include(g => g.Domaci).Include(g => g.Gostujuci)));
-
                 
+                var utakmice = _context.Utakmice
+                    .Include(g => g.Domaci)
+                    .Include(g => g.Gostujuci)
+                    .ToList();
+
+                var utakmiceDto = _mapper.Map<List<UtakmicaDTORead>>(utakmice);
+                return Ok(utakmiceDto);
             }
             catch (Exception ex)
             {
                 return BadRequest(new { poruka = ex.Message });
             }
-
         }
 
-
+        
         [HttpGet]
         [Route("{sifra:int}")]
-        public ActionResult<UtakmicaDTOinsertUpdate> GetBySifra(int sifra)
+        public ActionResult<UtakmicaDTORead> GetBySifra(int sifra)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(new { poruka = ModelState });
             }
-            Utakmica? e;
             try
             {
-                e = _context.Utakmice.Include(g => g.Domaci).FirstOrDefault(g => g.Sifra == sifra);
-                
+                var utakmica = _context.Utakmice
+                    .Include(g => g.Domaci)
+                    .Include(g => g.Gostujuci)
+                    .FirstOrDefault(g => g.Sifra == sifra);
+
+                if (utakmica == null)
+                {
+                    return NotFound(new { poruka = "Utakmica ne postoji u bazi" });
+                }
+
+                var utakmicaDto = _mapper.Map<UtakmicaDTORead>(utakmica);
+                return Ok(utakmicaDto);
             }
             catch (Exception ex)
             {
                 return BadRequest(new { poruka = ex.Message });
             }
-            if (e == null)
-            {
-                return NotFound(new { poruka = "Utakmica ne postoji u bazi" });
-            }
-
-            return Ok(_mapper.Map<UtakmicaDTOinsertUpdate>(e));
         }
 
+        
         [HttpPost]
         public IActionResult Post(UtakmicaDTOinsertUpdate dto)
         {
@@ -69,41 +77,35 @@ namespace NogometniKlubAPP.Controllers
                 return BadRequest(new { poruka = ModelState });
             }
 
-            Klub? es;
             try
             {
-                es = _context.Klubovi.Find(dto.DomaciSifra);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { poruka = ex.Message });
-            }
-            if (es == null)
-            {
-                return NotFound(new { poruka = $"Klub sa šifrom {dto.DomaciSifra} nije pronađen." });
-            }
+                var domaciKlub = _context.Klubovi.Find(dto.DomaciSifra);
+                var gostujuciKlub = _context.Klubovi.Find(dto.GostujuciSifra);
 
-            try
-            {
-                var e = _mapper.Map<Trener>(dto);
-                e.Klub = es;
-                _context.Treneri.Add(e);
+                if (domaciKlub == null || gostujuciKlub == null)
+                {
+                    return NotFound(new { poruka = "Jedan ili oba kluba nisu pronađena." });
+                }
+
+                var utakmica = _mapper.Map<Utakmica>(dto);
+                utakmica.Domaci = domaciKlub;
+                utakmica.Gostujuci = gostujuciKlub;
+
+                _context.Utakmice.Add(utakmica);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, _mapper.Map<TrenerDTORead>(e));
+
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<UtakmicaDTORead>(utakmica));
             }
             catch (Exception ex)
             {
                 return BadRequest(new { poruka = ex.Message });
             }
-
-
-
         }
 
+        
         [HttpPut]
         [Route("{sifra:int}")]
-        [Produces("application/json")]
-        public IActionResult Put(int sifra, TrenerDTOinsertUpdate dto)
+        public IActionResult Put(int sifra, UtakmicaDTOinsertUpdate dto)
         {
             if (!ModelState.IsValid)
             {
@@ -111,51 +113,42 @@ namespace NogometniKlubAPP.Controllers
             }
             try
             {
-                Utakmica? e;
-                try
-                {
-                    e = _context.Utakmice.Include(g => g.Domaci).FirstOrDefault(x => x.Sifra == sifra);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(new { poruka = ex.Message });
-                }
-                if (e == null)
+                var utakmica = _context.Utakmice
+                    .Include(g => g.Domaci)
+                    .Include(g => g.Gostujuci)
+                    .FirstOrDefault(x => x.Sifra == sifra);
+
+                if (utakmica == null)
                 {
                     return NotFound(new { poruka = "Utakmica ne postoji u bazi" });
                 }
 
-                Klub? es;
-                try
+                var domaciKlub = _context.Klubovi.Find(dto.DomaciSifra);
+                var gostujuciKlub = _context.Klubovi.Find(dto.GostujuciSifra);
+
+                if (domaciKlub == null || gostujuciKlub == null)
                 {
-                    es = _context.Klubovi.Find(dto.KlubSifra);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(new { poruka = ex.Message });
-                }
-                if (es == null)
-                {
-                    return NotFound(new { poruka = $"Klub sa šifrom {dto.KlubSifra} nije pronađen." });
+                    return NotFound(new { poruka = "Jedan ili oba kluba nisu pronađena." });
                 }
 
-                e = _mapper.Map(dto, e);
-                e.Domaci = es;
-                _context.Utakmice.Update(e);
+                utakmica = _mapper.Map(dto, utakmica);
+                utakmica.Domaci = domaciKlub;
+                utakmica.Gostujuci = gostujuciKlub;
+
+                _context.Utakmice.Update(utakmica);
                 _context.SaveChanges();
 
-                return Ok(new { poruka = "Uspješno promjenjeno" });
+                return Ok(new { poruka = "Uspješno promijenjeno" });
             }
             catch (Exception ex)
             {
                 return BadRequest(new { poruka = ex.Message });
             }
-
         }
 
+        
         [HttpDelete]
         [Route("{sifra:int}")]
-        [Produces("application/json")]
         public IActionResult Delete(int sifra)
         {
             if (!ModelState.IsValid)
@@ -164,20 +157,14 @@ namespace NogometniKlubAPP.Controllers
             }
             try
             {
-                Utakmica? e;
-                try
+                var utakmica = _context.Utakmice.Find(sifra);
+
+                if (utakmica == null)
                 {
-                    e = _context.Utakmice.Find(sifra);
+                    return NotFound(new { poruka = "Utakmica ne postoji u bazi" });
                 }
-                catch (Exception ex)
-                {
-                    return BadRequest(new { poruka = ex.Message });
-                }
-                if (e == null)
-                {
-                    return NotFound("Utakmica ne postoji u bazi");
-                }
-                _context.Utakmice.Remove(e);
+
+                _context.Utakmice.Remove(utakmica);
                 _context.SaveChanges();
                 return Ok(new { poruka = "Uspješno obrisano" });
             }
@@ -186,9 +173,5 @@ namespace NogometniKlubAPP.Controllers
                 return BadRequest(new { poruka = ex.Message });
             }
         }
-
-
     }
-
-
 }

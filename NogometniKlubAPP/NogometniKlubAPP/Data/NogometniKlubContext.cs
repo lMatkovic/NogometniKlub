@@ -26,8 +26,16 @@ namespace NogometniKlubAPP.Data
             
                 modelBuilder.Entity<Igrac>().HasOne(g => g.Klub);
                 modelBuilder.Entity<Trener>().HasOne(g => g.Klub);
-                modelBuilder.Entity<Utakmica>().HasOne(g => g.Domaci);
-                modelBuilder.Entity<Utakmica>().HasOne(g => g.Gostujuci);
+
+            modelBuilder.Entity<Utakmica>()
+                 .HasOne(u => u.Domaci)
+                .WithMany()
+                .HasForeignKey("DomaciSifra");
+
+            modelBuilder.Entity<Utakmica>()
+                .HasOne(u => u.Gostujuci)
+                .WithMany()
+                .HasForeignKey("GostujuciSifra");
 
 
         }

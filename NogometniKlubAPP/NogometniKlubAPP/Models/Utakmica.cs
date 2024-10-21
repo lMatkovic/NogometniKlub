@@ -7,13 +7,21 @@ namespace NogometniKlubAPP.Models
         public DateTime? Datum { get; set; }
         public string? Lokacija { get; set; }
         public string? Stadion { get; set; }
-        
-        [ForeignKey("domaci_klub")]
-        public required Klub Domaci { get; set;}
 
-        [ForeignKey("gostujuci_klub")]
-        public required Klub Gostujuci {get; set;}
-    
+        [Column("domaci_klub")]  
+        public int DomaciSifra { get; set; }
+
+        [ForeignKey("DomaciSifra")]
+        public Klub Domaci { get; set; }
+
+        [Column("gostujuci_klub")]  
+        public int GostujuciSifra { get; set; }
+
+        [ForeignKey("GostujuciSifra")]
+        public Klub Gostujuci { get; set; }
     }
-    
 }
+    
+    
+    
+
