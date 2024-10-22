@@ -40,7 +40,7 @@ export default function KluboviDodaj(){
     
     return(
         <>
-        Dodavanje kluba
+        <h2>Dodavanje novog kluba</h2>
         <Form onSubmit={obradiSubmit}>
             <Form.Group controlId="naziv">
                 <Form.Label>Naziv</Form.Label>

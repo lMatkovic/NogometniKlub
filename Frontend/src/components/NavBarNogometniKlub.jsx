@@ -22,15 +22,19 @@ export default function NavBarNogometniKlub(){
                     <Nav.Link href="https://lukam1-001-site1.dtempurl.com/swagger/index.html"
                     target='_blank'>Swagger</Nav.Link>
                     <NavDropdown title="Programi" id="basic-nav-dropdown">
-                        <NavDropdown.Item 
                         
+                        <NavDropdown.Item 
                         onClick={()=>navigate(RouteNames.KLUB_PREGLED)}
-
                         >Klubovi</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">
-                        Igraci
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Treneri</NavDropdown.Item>
+                        
+                        <NavDropdown.Item 
+                        onClick={()=>navigate(RouteNames.IGRAC_PREGLED)}
+                        >Igraci</NavDropdown.Item>
+
+                        <NavDropdown.Item 
+                        onClick={()=>navigate(RouteNames.TRENER_PREGLED)}
+                        >Treneri</NavDropdown.Item>
+
                         <NavDropdown.Item href="#action/3.4">
                         Utakmice
                         </NavDropdown.Item>

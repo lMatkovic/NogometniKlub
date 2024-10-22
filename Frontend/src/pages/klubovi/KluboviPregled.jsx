@@ -3,6 +3,7 @@ import KlubService from "../../services/KlubService"
 import { Button, Table } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom"
 import { RouteNames } from "../../constants"
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 
 export default function KluboviPregled(){
@@ -82,23 +83,23 @@ export default function KluboviPregled(){
                         <td>
                             {klub.liga}
                         </td>
-                        <td>
+                        <td className="sredina">
                             <Button
-                            variant='danger'
-                            onClick ={()=>obrisi(klub.sifra)}
-                            >
-
-                                Obriši
+                                    variant="primary"
+                                    onClick={() => { navigate(`/klubovi/${klub.sifra}`); }}
+                                >
+                                    <FaEdit size={25} />
                             </Button>
-                            &nbsp;&nbsp;&nbsp;
+
+                                &nbsp;&nbsp;&nbsp;
+                                
                             <Button
-                            onClick={()=>navigate(`/klubovi/${klub.sifra}`)}
-                            >
-
-                                Promjena
+                                    variant="danger"
+                                    onClick={() => obrisi(klub.sifra)} // Popravljen naziv funkcije
+                                >
+                                    <FaTrash size={25} />
                             </Button>
-                            
-                        </td>
+                            </td>
 
                     </tr>
 
