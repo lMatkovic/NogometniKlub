@@ -67,7 +67,7 @@ export default function TreneriPregled(){
                             <td className="sredina">
                                     <Button
                                         variant='primary'
-                                        onClick={()=>{navigate(`/trener/${entitet.sifra}`)}}
+                                        onClick={()=>{navigate(`/treneri/${entitet.sifra}`)}}
 
                                         >
                                         <FaEdit 

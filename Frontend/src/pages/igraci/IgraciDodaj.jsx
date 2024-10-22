@@ -8,18 +8,18 @@ import { RouteNames } from '../../constants';
 export default function IgraciDodaj() {
   const navigate = useNavigate();
 
-  // State za klubove i formu
+  
   const [klubovi, setKlubovi] = useState([]);
   const [klubSifra, setKlubSifra] = useState(0);
   const [brojDresa, setBrojDresa] = useState(0);
 
-  // Funkcija za dohvaćanje klubova
+  
   async function dohvatiKlubove() {
     try {
       const odgovor = await KlubService.get();
       if (odgovor && !odgovor.greska) {
-        setKlubovi(odgovor.poruka); // Preuzmi klubove iz odgovora
-        setKlubSifra(odgovor.poruka[0].sifra); // Postavi prvi klub kao default
+        setKlubovi(odgovor.poruka); 
+        setKlubSifra(odgovor.poruka[0].sifra); 
       } else {
         alert("Greška prilikom dohvaćanja klubova.");
       }
@@ -34,7 +34,7 @@ export default function IgraciDodaj() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Funkcija za dodavanje igrača
+  
   async function dodajIgraca(podaci) {
     try {
       const odgovor = await Service.dodaj(podaci);
@@ -42,14 +42,14 @@ export default function IgraciDodaj() {
         alert(odgovor.poruka);
         return;
       }
-      navigate(RouteNames.IGRAC_PREGLED); // Preusmjeri na pregled igrača
+      navigate(RouteNames.IGRAC_PREGLED); 
     } catch (error) {
       console.error("Greška prilikom dodavanja igrača:", error);
       alert("Greška prilikom dodavanja igrača.");
     }
   }
 
-  // Obrada submit-a forme
+  
   function obradiSubmit(e) {
     e.preventDefault();
     

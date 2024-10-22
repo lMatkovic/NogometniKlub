@@ -95,7 +95,7 @@ export default function KluboviPregled(){
                                 
                             <Button
                                     variant="danger"
-                                    onClick={() => obrisi(klub.sifra)} // Popravljen naziv funkcije
+                                    onClick={() => obrisi(klub.sifra)} 
                                 >
                                     <FaTrash size={25} />
                             </Button>

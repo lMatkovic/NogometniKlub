@@ -7,13 +7,13 @@ import { RouteNames } from '../../constants';
 
 export default function IgracPromjena() {
   const navigate = useNavigate();
-  const { sifra } = useParams(); // Dohvati "sifra" iz URL-a
+  const { sifra } = useParams(); 
 
   const [igrac, setIgrac] = useState({});
-  const [klubovi, setKlubovi] = useState([]); // Za popunjavanje dropdowna klubova
-  const [klubSifra, setKlubSifra] = useState(0); // Trenutno odabrani klub
+  const [klubovi, setKlubovi] = useState([]); 
+  const [klubSifra, setKlubSifra] = useState(0); 
 
-  // Dohvaća podatke o igraču
+  
   async function dohvatiIgraca() {
     const odgovor = await IgracService.getBySifra(sifra);
     if (odgovor.greska) {
@@ -21,38 +21,38 @@ export default function IgracPromjena() {
       return;
     }
     setIgrac(odgovor.poruka);
-    setKlubSifra(odgovor.poruka.klubSifra); // Postavi inicijalni klub igrača
+    setKlubSifra(odgovor.poruka.klubSifra); 
   }
 
-  // Dohvaća listu klubova za select dropdown
+  
   async function dohvatiKlubove() {
     const odgovor = await KlubService.get();
-    setKlubovi(odgovor.poruka); // Postavi klubove u state
+    setKlubovi(odgovor.poruka); 
   }
 
-  // Dohvati podatke o igraču i klubovima prilikom učitavanja komponente
+ 
   useEffect(() => {
     dohvatiIgraca();
     dohvatiKlubove();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Funkcija za slanje promjena
+  
   async function promjena(igracPodaci) {
     const odgovor = await IgracService.promjena(sifra, igracPodaci);
     if (odgovor.greska) {
       alert(odgovor.poruka);
       return;
     }
-    navigate(RouteNames.IGRAC_PREGLED); // Preusmjeri na pregled igrača
+    navigate(RouteNames.IGRAC_PREGLED); 
   }
 
-  // Obrada submit-a forme
+  
   function obradiSubmit(e) {
     e.preventDefault();
     const podaci = new FormData(e.target);
 
-    // Kreiraj objekt s podacima igrača
+    
     promjena({
       ime: podaci.get('ime'),
       prezime: podaci.get('prezime'),

@@ -4,15 +4,15 @@ import { IoIosAdd } from "react-icons/io";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Service from "../../services/IgracService"; // primjetite promjenu naziva
+import Service from "../../services/IgracService"; 
 import { RouteNames } from "../../constants";
 
 
 export default function IgracPregled() {
-    const [igraci, setIgraci] = useState([]); // Inicijalizirano kao prazan niz
+    const [igraci, setIgraci] = useState([]); 
     let navigate = useNavigate(); 
     
-    // Funkcija za dohvaćanje igrača
+   
     async function dohvatiIgrace() {
         try {
             const odgovor = await Service.get();
@@ -22,7 +22,7 @@ export default function IgracPregled() {
         }
     }
     
-    // Funkcija za brisanje igrača
+   
     async function obrisiIgraca(sifra) {
         try {
             const odgovor = await Service.obrisi(sifra);
@@ -30,13 +30,13 @@ export default function IgracPregled() {
                 alert(odgovor.poruka);
                 return;
             }
-            dohvatiIgrace(); // Ponovno dohvaćanje igrača nakon brisanja
+            dohvatiIgrace(); 
         } catch (e) {
             console.log(e);
         }
     }
     
-    // useEffect za dohvaćanje igrača kada se komponenta učita
+    
     useEffect(() => {
         dohvatiIgrace();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,7 +80,7 @@ export default function IgracPregled() {
                                 
                                 <Button
                                     variant="danger"
-                                    onClick={() => obrisiIgraca(entitet.sifra)} // Popravljen naziv funkcije
+                                    onClick={() => obrisiIgraca(entitet.sifra)} 
                                 >
                                     <FaTrash size={25} />
                                 </Button>

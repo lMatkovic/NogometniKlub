@@ -13,6 +13,10 @@ import IgraciDodaj from './pages/Igraci/IgraciDodaj';
 import IgraciPromjena from './pages/igraci/IgraciPromjena';
 import TreneriPregled from './pages/treneri/TreneriPregled';
 import TreneriDodaj from './pages/treneri/TreneriDodaj';
+import TreneriPromjena from './pages/treneri/TreneriPromjena';
+
+
+
 
 
 
@@ -41,6 +45,11 @@ function App() {
 
         <Route path={RouteNames.TRENER_PREGLED} element={<TreneriPregled/>} />
         <Route path={RouteNames.TRENER_NOVI} element={<TreneriDodaj/>} />
+        <Route path={RouteNames.TRENER_PROMJENA} element={<TreneriPromjena/>} />
+        
+
+        
+        
         
         
 
