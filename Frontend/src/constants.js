@@ -12,7 +12,11 @@ export const RouteNames = {
 
     TRENER_PREGLED: '/treneri',
     TRENER_NOVI: '/treneri/dodaj',
-    TRENER_PROMJENA: '/treneri/:sifra'
+    TRENER_PROMJENA: '/treneri/:sifra',
+
+    UTAKMICA_PREGLED: '/utakmice',
+    UTAKMICA_NOVI: '/utakmice/dodaj',
+    UTAKMICA_PROMJENA: '/utakmice/:sifra'
 
 }
 
