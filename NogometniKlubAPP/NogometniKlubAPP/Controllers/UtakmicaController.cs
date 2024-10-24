@@ -105,6 +105,7 @@ namespace NogometniKlubAPP.Controllers
         
         [HttpPut]
         [Route("{sifra:int}")]
+        [Produces("application/json")]
         public IActionResult Put(int sifra, UtakmicaDTOinsertUpdate dto)
         {
             if (!ModelState.IsValid)

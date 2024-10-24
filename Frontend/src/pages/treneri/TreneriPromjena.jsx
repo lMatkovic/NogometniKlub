@@ -73,12 +73,12 @@ function obradiSubmit(e) {
       
       <Form onSubmit={obradiSubmit}>
           <Form.Group controlId="ime">
-              <Form.Label>Naziv</Form.Label>
+              <Form.Label>Ime</Form.Label>
               <Form.Control type="text" name="ime" required defaultValue={trener.ime}/>
           </Form.Group>
 
           <Form.Group controlId="prezime">
-              <Form.Label>Predavač</Form.Label>
+              <Form.Label>Prezime</Form.Label>
               <Form.Control type="text" name="prezime" required defaultValue={trener.prezime}/>
           </Form.Group>
 
@@ -110,7 +110,7 @@ function obradiSubmit(e) {
           <hr />
           <Row>
               <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
-              <Link to={RouteNames.GRUPA_PREGLED}
+              <Link to={RouteNames.TRENER_PREGLED}
               className="btn btn-danger siroko">
               Odustani
               </Link>

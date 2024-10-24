@@ -16,6 +16,7 @@ import TreneriDodaj from './pages/treneri/TreneriDodaj';
 import TreneriPromjena from './pages/treneri/TreneriPromjena';
 import UtakmicePregled from './pages/utakmice/UtakmicePregled';
 import UtakmiceDodaj from './pages/utakmice/UtakmiceDodaj';
+import UtakmicePromjena from './pages/utakmice/UtakmicePromjena';
 
 
 
@@ -51,6 +52,7 @@ function App() {
 
         <Route path={RouteNames.UTAKMICA_PREGLED} element={<UtakmicePregled/>} />
         <Route path={RouteNames.UTAKMICA_NOVI} element={<UtakmiceDodaj/>} />
+        <Route path={RouteNames.UTAKMICA_PROMJENA} element={<UtakmicePromjena/>} />
             
         
     
