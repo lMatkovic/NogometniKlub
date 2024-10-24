@@ -186,6 +186,63 @@ namespace NogometniKlubAPP.Controllers
                 return BadRequest(new { poruka = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("trazi/{uvjet}")]
+        public ActionResult<List<IgracDTORead>> TraziPolaznik(string uvjet)
+        {
+            if (uvjet == null || uvjet.Length < 3)
+            {
+                return BadRequest(ModelState);
+            }
+            uvjet = uvjet.ToLower();
+            try
+            {
+                IEnumerable<Igrac> query = _context.Igraci;
+                var niz = uvjet.Split(" ");
+                foreach (var s in uvjet.Split(" "))
+                {
+                    query = query.Where(p => p.Ime.ToLower().Contains(s) || p.Prezime.ToLower().Contains(s));
+                }
+                var polaznici = query.ToList();
+                return Ok(_mapper.Map<List<IgracDTORead>>(polaznici));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { poruka = e.Message });
+            }
+        }
+
+
+        [HttpGet]
+        [Route("traziStranicenje/{stranica}")]
+        public IActionResult TraziPolaznikStranicenje(int stranica, string uvjet = "")
+        {
+            var poStranici = 4;
+            uvjet = uvjet.ToLower();
+            try
+            {
+                IEnumerable<Igrac> query = _context.Igraci.Skip((poStranici * stranica) - poStranici);
+
+                var niz = uvjet.Split(" ");
+                foreach (var s in uvjet.Split(" "))
+                {
+                    query = query.Where(p => p.Ime.ToLower().Contains(s) || p.Prezime.ToLower().Contains(s));
+                }
+                query.Take(poStranici)
+                    .OrderBy(p => p.Prezime);
+                var polaznici = query.ToList();
+                return Ok(_mapper.Map<List<IgracDTORead>>(polaznici));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+
+
     }
 }
 

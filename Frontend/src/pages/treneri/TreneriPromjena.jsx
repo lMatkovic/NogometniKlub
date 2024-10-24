@@ -69,7 +69,7 @@ function obradiSubmit(e) {
 
   return (
       <>
-      Mjenjanje podatake trenera
+       <h2>Mjenjanje podatake trenera</h2>
       
       <Form onSubmit={obradiSubmit}>
           <Form.Group controlId="ime">

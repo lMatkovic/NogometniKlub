@@ -73,10 +73,27 @@ async function promjena(sifra,Igrac) {
         }
     })
 }
+
+async function traziIgraca(uvjet){
+    return await HttpService.get('/Igrac/trazi/'+uvjet)
+    .then((odgovor)=>{
+        //console.table(odgovor.data);
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch((e)=>{return {greska: true, poruka: 'Problem kod traženja igraca'}})
+}
+
+
+
+
 export default{
     get,
     getBySifra,
     obrisi,
     dodaj,
-    promjena
+    promjena,
+
+    traziIgraca
+
+    
 }
