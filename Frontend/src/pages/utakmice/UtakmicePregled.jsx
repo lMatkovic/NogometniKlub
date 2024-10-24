@@ -5,7 +5,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import Service from "../../services/TrenerService"; 
+import Service from "../../services/UtakmicaService"; 
 import { RouteNames } from "../../constants";
 
 export default function UtakmicePregled(){

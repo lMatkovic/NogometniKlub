@@ -35,9 +35,10 @@ export default function NavBarNogometniKlub(){
                         onClick={()=>navigate(RouteNames.TRENER_PREGLED)}
                         >Treneri</NavDropdown.Item>
 
-                        <NavDropdown.Item href="#action/3.4">
-                        Utakmice
-                        </NavDropdown.Item>
+                        <NavDropdown.Item 
+                        onClick={()=>navigate(RouteNames.UTAKMICA_PREGLED)}
+                        >Utakmice</NavDropdown.Item>
+
                     </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>

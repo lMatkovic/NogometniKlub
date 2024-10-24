@@ -3,8 +3,8 @@
     public record TrenerDTORead(
         int Sifra,
         string Ime,
-        string? KlubNaziv,
         string Prezime,
+        string? KlubNaziv,
         string Nacionalnost,
         string Iskustvo
         );
