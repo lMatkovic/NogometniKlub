@@ -21,3 +21,5 @@ export const RouteNames = {
 }
 
 export const BACKEND_URL = 'https://lukam1-001-site1.dtempurl.com/api/v1'
+
+export const APP_URL = 'https://lukam1-001-site1.dtempurl.com';

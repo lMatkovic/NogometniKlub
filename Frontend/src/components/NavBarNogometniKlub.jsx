@@ -2,13 +2,19 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useNavigate } from 'react-router-dom';
-import { RouteNames } from '../constants';
+import { APP_URL, RouteNames } from '../constants';
 
 
 export default function NavBarNogometniKlub(){
     
     const navigate = useNavigate()
     
+
+    function OpenSwaggerURL(){
+        window.open(APP_URL + "/swagger/index.html", "_blank")
+      }
+
+
     
     return(
         <>
@@ -19,8 +25,7 @@ export default function NavBarNogometniKlub(){
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                    <Nav.Link href="https://lukam1-001-site1.dtempurl.com/swagger/index.html"
-                    target='_blank'>Swagger</Nav.Link>
+                    <Nav.Link  onClick={()=>OpenSwaggerURL()} >Swagger</Nav.Link>
                     <NavDropdown title="Programi" id="basic-nav-dropdown">
                         
                         <NavDropdown.Item 
