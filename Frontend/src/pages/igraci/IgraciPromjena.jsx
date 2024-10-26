@@ -82,9 +82,9 @@ export default function IgraciPromjena(){
           ime: podaci.get('ime'),
           prezime: podaci.get('prezime'),
           klubSifra: parseInt(klubSifra),
-          datumRodjenja: podaci.get('datumRodjenja'),
+          datumrodjenja: podaci.get('datumrodjenja'),
           pozicija: podaci.get('pozicija'),
-          brojDresa: parseInt(podaci.get('brojDresa')),
+          brojdresa: parseInt(podaci.get('brojdresa')),
         });
 
     }
@@ -153,9 +153,9 @@ export default function IgraciPromjena(){
                   </Form.Select>
                 </Form.Group>
 
-                <Form.Group controlId="datumRodjenja">
+                <Form.Group controlId="datumrodjenja">
                   <Form.Label>Datum rođenja</Form.Label>
-                  <Form.Control type="date" name="datumRodjenja" required defaultValue={igrac.datumRodjenja} />
+                  <Form.Control type="date" name="datumrodjenja" required defaultValue={igrac.datumrodjenja} />
                 </Form.Group>
 
                 <Form.Group controlId="pozicija">
@@ -163,9 +163,9 @@ export default function IgraciPromjena(){
                   <Form.Control type="text" name="pozicija" required defaultValue={igrac.pozicija} />
                 </Form.Group>
 
-                <Form.Group controlId="brojDresa">
+                <Form.Group controlId="brojdresa">
                     <Form.Label>Broj Dresa</Form.Label>
-                    <Form.Control type="number" name="brojDresa" required  defaultValue={igrac.brojDresa}/>
+                    <Form.Control type="number" name="brojdresa" required  defaultValue={igrac.brojdresa}/>
                 </Form.Group>
 
 

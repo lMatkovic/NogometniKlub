@@ -136,7 +136,6 @@ export default function IgraciPregled(){
                 <Card.Body>
                   <Card.Title>{p.ime} {p.prezime}</Card.Title>
                   <Card.Text>
-                    {p.email}
                   </Card.Text>
                   <Row>
                       <Col>

@@ -112,7 +112,7 @@ function obradiSubmit(e) {
           </Form.Group>
 
           <Form.Group className='mb-3' controlId='gostujuciSifra'>
-            <Form.Label>Domaci Klub</Form.Label>
+            <Form.Label>Gostujuci Klub</Form.Label>
             <Form.Select
             value={gostujuciSifra}
             onChange={(e)=>{setGostujuciSifra(e.target.value)}}
