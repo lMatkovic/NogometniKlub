@@ -2,17 +2,21 @@ import KlubService from "../../services/KlubService"
 import { Button, Col, Form, Row } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom"
 import { RouteNames } from "../../constants"
+import useLoading from "../../hooks/useLoading";
 
 
 export default function KluboviDodaj(){
 
     const navigate = useNavigate()
+    const { showLoading, hideLoading } = useLoading();
 
    
     async function dodaj(klub) {
         //console.log(klub)
         //console.log(JSON.stringify(klub))
+        showLoading();
         const odgovor = await KlubService.dodaj(klub)
+        hideLoading();
         if(odgovor.greska){
             alert(odgovor.poruka)
             return;

@@ -4,6 +4,7 @@ import { IoIosAdd } from "react-icons/io";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import useLoading from "../../hooks/useLoading";
 
 import Service from "../../services/UtakmicaService"; 
 import { RouteNames } from "../../constants";
@@ -11,18 +12,23 @@ import { RouteNames } from "../../constants";
 export default function UtakmicePregled(){
     const [utakmice, setUtakmice] = useState();
     let navigate = useNavigate(); 
+    const { showLoading, hideLoading } = useLoading();
 
     async function dohvatiUtakmice(){
+        showLoading()
         await Service.get()
         .then((odgovor)=>{
             //console.log(odgovor);
             setUtakmice(odgovor);
         })
         .catch((e)=>{console.log(e)});
+        hideLoading();
     }
 
     async function obrisiUtakmicu(sifra) {
+        showLoading();
         const odgovor = await Service.obrisi(sifra);
+        hideLoading()
         //console.log(odgovor);
         if(odgovor.greska){
             alert(odgovor.poruka);

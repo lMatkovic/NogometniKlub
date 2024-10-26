@@ -17,6 +17,7 @@ import TreneriPromjena from './pages/treneri/TreneriPromjena';
 import UtakmicePregled from './pages/utakmice/UtakmicePregled';
 import UtakmiceDodaj from './pages/utakmice/UtakmiceDodaj';
 import UtakmicePromjena from './pages/utakmice/UtakmicePromjena';
+import LoadingSpinner from './components/LoadingSpinner'
 
 
 
@@ -33,6 +34,7 @@ function App() {
 
   return (
     <>
+    <LoadingSpinner />
     <Container>
       <NavBarNogometniKlub />
       <Routes>

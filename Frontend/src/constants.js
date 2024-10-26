@@ -20,6 +20,6 @@ export const RouteNames = {
 
 }
 
-export const APP_URL = 'https://lukam1-001-site1.dtempurl.com';
+export const APP_URL = 'https://localhost:7131';
 
 export const BACKEND_URL = APP_URL + '/api/v1';

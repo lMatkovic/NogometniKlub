@@ -27,7 +27,12 @@ namespace NogometniKlubAPP.Mapping
             entitet.BrojDresa ?? 0,  
             PutanjaDatoteke(entitet)  
             ));
-            CreateMap<IgracDTOinsertUpdate, Igrac>();
+
+            CreateMap<IgracDTOinsertUpdate,Igrac >();
+            CreateMap<Igrac, IgracDTOinsertUpdate>().ForCtorParam(
+                  "KlubSifra",
+                  opt => opt.MapFrom(src => src.Klub.Sifra)
+              );
 
 
 

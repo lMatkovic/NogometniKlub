@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import Service from '../../services/UtakmicaService';
 import KlubService from '../../services/KlubService';
 import { RouteNames } from '../../constants';
-
+import useLoading from "../../hooks/useLoading";
 
 export default function UtakmicaPromjena() {
   const navigate = useNavigate();
+  const { showLoading, hideLoading } = useLoading();
   const routeParams = useParams();
 
   const [klubovi, setKlubovi] = useState([]);
@@ -18,12 +19,16 @@ export default function UtakmicaPromjena() {
   const [utakmica, setUtakmica] = useState({});
 
   async function dohvatiKlubove(){
+    showLoading();
     const odgovor = await KlubService.get();
+    hideLoading();
     setKlubovi(odgovor.poruka);
   }
 
   async function dohvatiUtakmicu() {
+    showLoading();
     const odgovor = await Service.getBySifra(routeParams.sifra);
+    hideLoading();
     if(odgovor.greska){
       alert(odgovor.poruka);
       return;

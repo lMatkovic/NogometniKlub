@@ -39,16 +39,16 @@ export default function IgraciPromjena(){
         setKlubSifra(odgovor.poruka.klubSifra); 
 
         if(odgovor.poruka.slika!=null){
-            setTrenutnaSlika(APP_URL + odgovor.poruka.slika + `?${Date.now()}`); // ovaj Date je da uvijek dovuče zadnju sliku
+            setTrenutnaSlika(APP_URL + odgovor.poruka.slika + `?${Date.now()}`); 
           }else{
             setTrenutnaSlika(nepoznato);
           }
     }
 
     async function dohvatiKlubove() {
-      const odgovor = await KlubService.get(); // Koristi KlubService za dohvat klubova
+      const odgovor = await KlubService.get(); 
       if (odgovor.greska) {
-        alert(odgovor.poruka); // Prikaži grešku ako dođe do problema
+        alert(odgovor.poruka); 
         return;
       }
       setKlubovi(odgovor.poruka); 
@@ -58,7 +58,6 @@ export default function IgraciPromjena(){
 
 
     useEffect(()=>{
-      console.log('Šifra igrača:', routeParams.sifra);
         dohvatiIgrace();
         dohvatiKlubove();
     },[]);
@@ -74,7 +73,7 @@ export default function IgraciPromjena(){
         navigate(RouteNames.IGRAC_PREGLED);
     }
 
-    function obradiSubmit(e){ // e predstavlja event
+    function obradiSubmit(e){ 
         e.preventDefault();
 
         const podaci = new FormData(e.target);
@@ -165,8 +164,8 @@ export default function IgraciPromjena(){
                 </Form.Group>
 
                 <Form.Group controlId="brojDresa">
-                  <Form.Label>Broj dresa</Form.Label>
-                  <Form.Control type="number" name="brojDresa" required min={1} defaultValue={igrac.brojDresa} />
+                    <Form.Label>Broj Dresa</Form.Label>
+                    <Form.Control type="number" name="brojDresa" required  defaultValue={igrac.brojDresa}/>
                 </Form.Group>
 
 

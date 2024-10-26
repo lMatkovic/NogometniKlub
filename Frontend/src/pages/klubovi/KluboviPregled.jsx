@@ -4,18 +4,23 @@ import { Button, Table } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom"
 import { RouteNames } from "../../constants"
 import { FaEdit, FaTrash } from "react-icons/fa";
+import useLoading from "../../hooks/useLoading";
+
 
 
 export default function KluboviPregled(){
 
 
     const navigate = useNavigate()
+    const { showLoading, hideLoading } = useLoading();
 
     const[klubovi, setKlubovi] = useState()
     
     async function dohvatiKlubove(){
-      const odgovor = await KlubService.get()
-      if(odgovor.greska){
+        showLoading();
+        const odgovor = await KlubService.get()
+        hideLoading();
+        if(odgovor.greska){
         alert(odgovor.poruka)
         return
       }
@@ -35,8 +40,9 @@ export default function KluboviPregled(){
     }
 
     async function brisanjeKluba(sifra) {
-        
+        showLoading();
         const odgovor = await KlubService.brisanje(sifra);
+        hideLoading();
         if(odgovor.greska){
             alert(odgovor.poruka)
             return

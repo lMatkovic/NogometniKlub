@@ -4,17 +4,21 @@ import { useEffect, useState } from 'react';
 import Service from '../../services/UtakmicaService';
 import KlubService from '../../services/KlubService';
 import { RouteNames } from '../../constants';
+import useLoading from "../../hooks/useLoading"
 
 
 export default function DodajUtakmicu() {
   const navigate = useNavigate();
+  const { showLoading, hideLoading } = useLoading();
 
   const [klubovi, setKlubovi] = useState([]);
   const [domaciSifra, setDomaciSifra] = useState(0);
   const [gostujuciSifra, setGostujuciSifra] = useState(0);
 
   async function dohvatiKlubove(){
+    showLoading();
     const odgovor = await KlubService.get();
+    hideLoading();
     setKlubovi(odgovor.poruka);
     setDomaciSifra(odgovor.poruka[0].sifra);
     setGostujuciSifra(odgovor.poruka[0].sifra);
@@ -28,7 +32,9 @@ export default function DodajUtakmicu() {
   },[]);
 
   async function dodaj(e) {
+    showLoading();
     const odgovor = await Service.dodaj(e);
+    hideLoading();
     if(odgovor.greska){
       alert(odgovor.poruka);
       return;

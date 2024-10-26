@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { RouteNames } from "../../constants"
 import { useEffect } from "react"
 import { useState } from "react";
+import useLoading from "../../hooks/useLoading";
 
 
 
@@ -11,10 +12,13 @@ export default function KluboviPromjena(){
     
     const [klub,setKlub] = useState({})
     const navigate = useNavigate()
+    const { showLoading, hideLoading } = useLoading();
     const routeParams = useParams()
 
     async function dohvatiKlub(){
+        showLoading();
         const odgovor = await KlubService.getBySifra(routeParams.sifra)
+        hideLoading();
         if(odgovor.greska){
           alert(odgovor.poruka)
           return
@@ -29,7 +33,9 @@ export default function KluboviPromjena(){
     },[])
 
     async function promjena(klub) {
+        showLoading();
         const odgovor = await KlubService.promjena(routeParams.sifra,klub)
+        hideLoading();
         if(odgovor.greska){
             alert(odgovor.poruka)
             return;

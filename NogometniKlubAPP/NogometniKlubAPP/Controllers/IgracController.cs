@@ -205,8 +205,8 @@ namespace NogometniKlubAPP.Controllers
                 {
                     query = query.Where(p => p.Ime.ToLower().Contains(s) || p.Prezime.ToLower().Contains(s));
                 }
-                var polaznici = query.ToList();
-                return Ok(_mapper.Map<List<IgracDTORead>>(polaznici));
+                var igraci = query.ToList();
+                return Ok(_mapper.Map<List<IgracDTORead>>(igraci));
             }
             catch (Exception e)
             {
@@ -232,8 +232,8 @@ namespace NogometniKlubAPP.Controllers
                 }
                 query.Take(poStranici)
                     .OrderBy(p => p.Prezime);
-                var polaznici = query.ToList();
-                return Ok(_mapper.Map<List<IgracDTORead>>(polaznici));
+                var igraci = query.ToList();
+                return Ok(_mapper.Map<List<IgracDTORead>>(igraci));
             }
             catch (Exception e)
             {
