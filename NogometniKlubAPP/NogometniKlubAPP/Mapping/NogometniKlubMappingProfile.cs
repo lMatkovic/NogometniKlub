@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace NogometniKlubAPP.Mapping
 {
-    public class NogometniKlubMappingProfile:Profile
+    public class NogometniKlubMappingProfile : Profile
     {
         public NogometniKlubMappingProfile()
         {
@@ -16,15 +16,19 @@ namespace NogometniKlubAPP.Mapping
 
 
             CreateMap<Igrac, IgracDTORead>()
-              .ForCtorParam(
-                  "KlubNaziv",
-                  opt => opt.MapFrom(src => src.Klub.Naziv)
-              );
-            CreateMap<Igrac, IgracDTOinsertUpdate>().ForMember(
-                    dest => dest.KlubSifra,
-                    opt => opt.MapFrom(src => src.Klub.Sifra)
-                );
+             .ConstructUsing(entitet =>
+              new IgracDTORead(
+            entitet.Sifra ?? 0,  
+            entitet.Ime ?? "",
+            entitet.Prezime ?? "",
+            entitet.Klub.Naziv ?? "",
+            entitet.DatumRodjenja ?? DateTime.MinValue,
+            entitet.Pozicija ?? "",
+            entitet.BrojDresa ?? 0,
+            PutanjaDatoteke(entitet)
+            ));
             CreateMap<IgracDTOinsertUpdate, Igrac>();
+
 
 
 
@@ -51,14 +55,35 @@ namespace NogometniKlubAPP.Mapping
                    opt => opt.MapFrom(src => src.Gostujuci.Naziv)
                );
 
-            
+
             CreateMap<UtakmicaDTOinsertUpdate, Utakmica>()
                 .ForMember(dest => dest.Domaci, opt => opt.MapFrom(src => new Klub { Sifra = src.DomaciSifra }))
                 .ForMember(dest => dest.Gostujuci, opt => opt.MapFrom(src => new Klub { Sifra = src.GostujuciSifra }));
+
+
+
+          
+        }
+
+        private static string? PutanjaDatoteke(Igrac e)
+        {
+            try
+            {
+                var ds = Path.DirectorySeparatorChar;
+                string slika = Path.Combine(Directory.GetCurrentDirectory()
+                    + ds + "wwwroot" + ds + "slike" + ds + "igraci" + ds + e.Sifra + ".png");
+                return File.Exists(slika) ? "/slike/igraci/" + e.Sifra + ".png" : null;
+            }
+            catch
+            {
+                return null;
+            }
+
+
         }
     }
-
 }
 
-    
+
+
 
