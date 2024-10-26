@@ -90,6 +90,11 @@ async function getStranicenje(stranica,uvjet){
     .catch((e)=>{ return {greska: true, poruka: 'Problem kod traženja igrac '}});
   }
 
+  async function postaviSliku(sifra, slika) {
+    return await HttpService.put('/Igrac/postaviSliku/' + sifra, slika)
+    .then((odgovor)=>{return  {greska: false, poruka: odgovor.data};})
+    .catch((e)=>{ return {greska: true, poruka: 'Problem kod postavljanja slike igraca '}});
+  }
 
 
 
@@ -102,7 +107,9 @@ export default{
     promjena,
 
     traziIgraca,
-    getStranicenje
+    getStranicenje,
+    postaviSliku
+    
 
     
 }

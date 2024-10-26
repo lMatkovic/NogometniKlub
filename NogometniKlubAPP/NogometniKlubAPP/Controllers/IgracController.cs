@@ -17,7 +17,7 @@ namespace NogometniKlubAPP.Controllers
     {
 
 
-       
+
         [HttpGet]
         public ActionResult<List<IgracDTORead>> Get()
         {
@@ -190,7 +190,7 @@ namespace NogometniKlubAPP.Controllers
 
         [HttpGet]
         [Route("trazi/{uvjet}")]
-        public ActionResult<List<IgracDTORead>> TraziPolaznik(string uvjet)
+        public ActionResult<List<IgracDTORead>> TraziIgrac(string uvjet)
         {
             if (uvjet == null || uvjet.Length < 3)
             {
@@ -217,7 +217,7 @@ namespace NogometniKlubAPP.Controllers
 
         [HttpGet]
         [Route("traziStranicenje/{stranica}")]
-        public IActionResult TraziPolaznikStranicenje(int stranica, string uvjet = "")
+        public IActionResult TraziIgracStranicenje(int stranica, string uvjet = "")
         {
             var poStranici = 4;
             uvjet = uvjet.ToLower();
@@ -241,6 +241,7 @@ namespace NogometniKlubAPP.Controllers
             }
         }
 
+
         [HttpPut]
         [Route("postaviSliku/{sifra:int}")]
         public IActionResult PostaviSliku(int sifra, SlikaDTO slika)
@@ -262,7 +263,7 @@ namespace NogometniKlubAPP.Controllers
             {
                 var ds = Path.DirectorySeparatorChar;
                 string dir = Path.Combine(Directory.GetCurrentDirectory()
-                    + ds + "wwwroot" + ds + "slike" + ds + "polaznici");
+                    + ds + "wwwroot" + ds + "slike" + ds + "igraci");
 
                 if (!System.IO.Directory.Exists(dir))
                 {
@@ -277,8 +278,5 @@ namespace NogometniKlubAPP.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-
     }
 }
-

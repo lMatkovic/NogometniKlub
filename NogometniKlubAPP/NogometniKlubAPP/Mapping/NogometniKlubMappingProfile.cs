@@ -16,16 +16,16 @@ namespace NogometniKlubAPP.Mapping
 
 
             CreateMap<Igrac, IgracDTORead>()
-             .ConstructUsing(entitet =>
-              new IgracDTORead(
-            entitet.Sifra ?? 0,  
-            entitet.Ime ?? "",
-            entitet.Prezime ?? "",
-            entitet.Klub.Naziv ?? "",
-            entitet.DatumRodjenja ?? DateTime.MinValue,
-            entitet.Pozicija ?? "",
-            entitet.BrojDresa ?? 0,
-            PutanjaDatoteke(entitet)
+    .ConstructUsing(entitet =>
+        new IgracDTORead(
+            entitet.Sifra,  
+            entitet.Ime ?? "",  
+            entitet.Prezime ?? "",  
+            entitet.Klub != null ? entitet.Klub.Naziv : "",  
+            entitet.DatumRodjenja,  
+            entitet.Pozicija ?? "",  
+            entitet.BrojDresa ?? 0,  
+            PutanjaDatoteke(entitet)  
             ));
             CreateMap<IgracDTOinsertUpdate, Igrac>();
 

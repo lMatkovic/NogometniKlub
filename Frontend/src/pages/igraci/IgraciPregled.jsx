@@ -1,25 +1,28 @@
+import { Button, Card, Col, Form, Pagination, Row } from "react-bootstrap";
+import IgracService from "../../services/IgracService";
 import { useEffect, useState } from "react";
-import { Button,  Card, Col, Form, Pagination, Row  } from "react-bootstrap";
-import { IoIosAdd } from "react-icons/io";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import Service from "../../services/IgracService"; 
 import { APP_URL, RouteNames } from "../../constants";
 import { Link } from "react-router-dom";
 import nepoznato from '../../assets/nepoznato.png'; 
+import { IoIosAdd } from "react-icons/io";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import useLoading from "../../hooks/useLoading";
 
 
 
-export default function IgracPregled(){
+export default function IgraciPregled(){
 
     const[igraci,setIgraci] = useState();
     const [stranica, setStranica] = useState(1);
     const [uvjet, setUvjet] = useState('');
+    const { showLoading, hideLoading } = useLoading();
 
 
 
     async function dohvatiIgrace() {
-
+        showLoading();
         const odgovor = await IgracService.getStranicenje(stranica,uvjet);
+        hideLoading();
         if(odgovor.greska){
             alert(odgovor.poruka);
             
@@ -30,57 +33,66 @@ export default function IgracPregled(){
             return;
         }
         setIgraci(odgovor.poruka);
- 
-    
-        async function obrisiAsync(sifra) {     
-            if(odgovor.greska){
-                alert(odgovor.poruka);
-                return;
-            }
-            dohvatiPolaznike();
+    }
+
+    // npm run lint
+    // javlja upozorenje
+    // 28:7  warning  React Hook useEffect has a missing dependency: 'dohvatie'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+    useEffect(()=>{
+        dohvatiIgrace();
+    },[stranica, uvjet]);
+
+
+
+   
+
+    async function obrisiAsync(sifra) {
+        showLoading();
+        hideLoading();
+        //console.log(odgovor);
+        if(odgovor.greska){
+            alert(odgovor.poruka);
+            return;
         }
-    
-        function obrisi(sifra){
-            obrisiAsync(sifra);
+        dohvatiIgrace();
+    }
+
+    function obrisi(sifra){
+        obrisiAsync(sifra);
+    }
+
+    function slika(igrac){
+        if(igrac.slika!=null){
+            return APP_URL + igrac.slika+ `?${Date.now()}`;
         }
+        return nepoznato;
+    }
+
+    function promjeniUvjet(e) {
+        if(e.nativeEvent.key == "Enter"){
+            console.log('Enter')
+            setStranica(1);
+            setUvjet(e.nativeEvent.srcElement.value);
+            setIgraci([]);
+        }
+    }
+
+    function povecajStranicu() {
+        setStranica(stranica + 1);
+      }
     
-}
-
-function slika(igrac){
-    if(igrac.slika!=null){
-        return APP_URL + igrac.slika+ `?${Date.now()}`;
-    }
-    return nepoznato;
-}
-
-function promjeniUvjet(e) {
-    if(e.nativeEvent.key == "Enter"){
-        console.log('Enter')
-        setStranica(1);
-        setUvjet(e.nativeEvent.srcElement.value);
-        setIgraci([]);
-    }
-}
-
-function povecajStranicu() {
-    setStranica(stranica + 1);
-  }
-
-  function smanjiStranicu() {
-    if(stranica==1){
-        return;
-    }
-    setStranica(stranica - 1);
-    }
+      function smanjiStranicu() {
+        if(stranica==1){
+            return;
+        }
+        setStranica(stranica - 1);
+      }
 
 
-
-
-
-    
-    return (
+    return(
         <>
-            <Row>
+           <Row>
                 <Col key={1} sm={12} lg={4} md={4}>
                     <Form.Control
                     type='text'
@@ -151,7 +163,7 @@ function povecajStranicu() {
                     />
                     </Pagination>
                 </div>
-                )} 
+                )}
         </>
     )
 
