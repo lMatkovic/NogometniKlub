@@ -59,7 +59,7 @@ return (
         <Form onSubmit={obradiSubmit}>
             <Form.Group controlId="datum">
                 <Form.Label>Datum</Form.Label>
-                <Form.Control type="datetime-local" name="datum" required />
+                <Form.Control type="date" name="datum" required />
             </Form.Group>
 
             <Form.Group controlId="lokacija">

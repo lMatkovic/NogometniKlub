@@ -1,94 +1,158 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Table } from "react-bootstrap";
+import { Button,  Card, Col, Form, Pagination, Row  } from "react-bootstrap";
 import { IoIosAdd } from "react-icons/io";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import Service from "../../services/IgracService"; 
-import { RouteNames } from "../../constants";
+import { APP_URL, RouteNames } from "../../constants";
+import { Link } from "react-router-dom";
+import nepoznato from '../../assets/nepoznato.png'; 
 
 
-export default function IgracPregled() {
-    const [igraci, setIgraci] = useState([]); 
-    let navigate = useNavigate(); 
-    
-   
+
+export default function IgracPregled(){
+
+    const[igraci,setIgraci] = useState();
+    const [stranica, setStranica] = useState(1);
+    const [uvjet, setUvjet] = useState('');
+
+
+
     async function dohvatiIgrace() {
-        try {
-            const odgovor = await Service.get();
-            setIgraci(odgovor);
-        } catch (e) {
-            console.log(e);
+
+        const odgovor = await IgracService.getStranicenje(stranica,uvjet);
+        if(odgovor.greska){
+            alert(odgovor.poruka);
+            
+            return;
         }
-    }
+        if(odgovor.poruka.length==0){
+            setStranica(stranica-1);
+            return;
+        }
+        setIgraci(odgovor.poruka);
+ 
     
-   
-    async function obrisiIgraca(sifra) {
-        try {
-            const odgovor = await Service.obrisi(sifra);
-            if (odgovor.greska) {
+        async function obrisiAsync(sifra) {     
+            if(odgovor.greska){
                 alert(odgovor.poruka);
                 return;
             }
-            dohvatiIgrace(); 
-        } catch (e) {
-            console.log(e);
+            dohvatiPolaznike();
         }
+    
+        function obrisi(sifra){
+            obrisiAsync(sifra);
+        }
+    
+}
+
+function slika(igrac){
+    if(igrac.slika!=null){
+        return APP_URL + igrac.slika+ `?${Date.now()}`;
     }
-    
-    
-    useEffect(() => {
-        dohvatiIgrace();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    return nepoznato;
+}
+
+function promjeniUvjet(e) {
+    if(e.nativeEvent.key == "Enter"){
+        console.log('Enter')
+        setStranica(1);
+        setUvjet(e.nativeEvent.srcElement.value);
+        setIgraci([]);
+    }
+}
+
+function povecajStranicu() {
+    setStranica(stranica + 1);
+  }
+
+  function smanjiStranicu() {
+    if(stranica==1){
+        return;
+    }
+    setStranica(stranica - 1);
+    }
+
+
+
+
+
     
     return (
-        <Container>
-            <Link to={RouteNames.IGRAC_NOVI} className="btn btn-success siroko">
-                <IoIosAdd size={25} />Dodaj
-            </Link>
-            <Table striped bordered hover responsive>
-                <thead>
-                    <tr>
-                        <th>Ime</th>
-                        <th>Prezime</th>
-                        <th>Klub</th>
-                        <th>Datum Rođenja</th>
-                        <th>Pozicija</th>
-                        <th>Broj Dresa</th>
-                        <th>Akcija</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {igraci && igraci.map((entitet, index) => (
-                        <tr key={index}>
-                            <td>{entitet.ime}</td>
-                            <td>{entitet.prezime}</td>
-                            <td>{entitet.klubNaziv}</td>
-                            <td>{entitet.datumRodjenja}</td>
-                            <td>{entitet.pozicija}</td>
-                            <td>{entitet.brojDresa}</td>
-                            <td className="sredina">
-                                <Button
-                                    variant="primary"
-                                    onClick={() => { navigate(`/igraci/${entitet.sifra}`); }}
-                                >
-                                    <FaEdit size={25} />
-                                </Button>
+        <>
+            <Row>
+                <Col key={1} sm={12} lg={4} md={4}>
+                    <Form.Control
+                    type='text'
+                    name='trazilica'
+                    placeholder='Dio imena i prezimena [Enter]'
+                    maxLength={255}
+                    defaultValue=''
+                    onKeyUp={promjeniUvjet}
+                    />
+                </Col>
+                <Col key={2} sm={12} lg={4} md={4}>
+                    {igraci && igraci.length > 0 && (
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <Pagination size="lg">
+                                <Pagination.Prev onClick={smanjiStranicu} />
+                                <Pagination.Item disabled>{stranica}</Pagination.Item> 
+                                <Pagination.Next
+                                    onClick={povecajStranicu}
+                                />
+                            </Pagination>
+                        </div>
+                    )}
+                </Col>
+                <Col key={3} sm={12} lg={4} md={4}>
+                    <Link to={RouteNames.IGRAC_NOVI} className="btn btn-success gumb">
+                        <IoIosAdd
+                        size={25}
+                        /> Dodaj
+                    </Link>
+                </Col>
+            </Row>
+            
+                
+            <Row>
+                
+            { igraci && igraci.map((p) => (
+           
+           <Col key={p.sifra} sm={12} lg={3} md={3}>
+              <Card style={{ marginTop: '1rem' }}>
+              <Card.Img variant="top" src={slika(p)} className="slika"/>
+                <Card.Body>
+                  <Card.Title>{p.ime} {p.prezime}</Card.Title>
+                  <Card.Text>
+                    {p.email}
+                  </Card.Text>
+                  <Row>
+                      <Col>
+                      <Link className="btn btn-primary gumb" to={`/igraci/${p.sifra}`}><FaEdit /></Link>
+                      </Col>
+                      <Col>
+                      <Button variant="danger" className="gumb"  onClick={() => obrisi(p.sifra)}><FaTrash /></Button>
+                      </Col>
+                    </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+      }
+      </Row>
+      <hr />
+              {igraci && igraci.length > 0 && (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <Pagination size="lg">
+                    <Pagination.Prev onClick={smanjiStranicu} />
+                    <Pagination.Item disabled>{stranica}</Pagination.Item> 
+                    <Pagination.Next
+                        onClick={povecajStranicu}
+                    />
+                    </Pagination>
+                </div>
+                )} 
+        </>
+    )
 
-                                &nbsp;&nbsp;&nbsp;
-                                
-                                <Button
-                                    variant="danger"
-                                    onClick={() => obrisiIgraca(entitet.sifra)} 
-                                >
-                                    <FaTrash size={25} />
-                                </Button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-        </Container>
-    );
 }

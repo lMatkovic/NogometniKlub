@@ -11,7 +11,7 @@ namespace NogometniKlubAPP.Models.DTO
         string? Stadion,
         string? Predsjednik,
         string? Drzava,
-        string? liga
+        string? Liga
         );
     
     

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NogometniKlubAPP.Data;
 using NogometniKlubAPP.Models;
 using NogometniKlubAPP.Models.DTO;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Text.RegularExpressions;
 
 namespace NogometniKlubAPP.Controllers

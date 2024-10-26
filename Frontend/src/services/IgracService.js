@@ -84,6 +84,14 @@ async function traziIgraca(uvjet){
 }
 
 
+async function getStranicenje(stranica,uvjet){
+    return await HttpService.get('/Igrac/traziStranicenje/'+stranica + '?uvjet=' + uvjet)
+    .then((odgovor)=>{return  {greska: false, poruka: odgovor.data};})
+    .catch((e)=>{ return {greska: true, poruka: 'Problem kod traženja igrac '}});
+  }
+
+
+
 
 
 export default{
@@ -93,7 +101,8 @@ export default{
     dodaj,
     promjena,
 
-    traziIgraca
+    traziIgraca,
+    getStranicenje
 
     
 }

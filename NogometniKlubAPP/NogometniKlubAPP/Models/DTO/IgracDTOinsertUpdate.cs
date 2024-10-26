@@ -10,9 +10,9 @@ namespace NogometniKlubAPP.Models.DTO
         [Required(ErrorMessage = "Klub obavezno")]
         int? KlubSifra,
        [Required(ErrorMessage = "Prezime obavezno")]
-        DateTime? datumrodjenja,
-        string? pozicija,
-        int? brojdresa);
+        DateTime? Datumrodjenja,
+        string? Pozicija,
+        int? Brojdresa);
     
 }
 
