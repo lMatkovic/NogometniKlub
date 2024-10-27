@@ -49,6 +49,7 @@ export default function IgraciPregled(){
 
     async function obrisiAsync(sifra) {
         showLoading();
+        const odgovor = await IgracService.obrisi(sifra);
         hideLoading();
         //console.log(odgovor);
         if(odgovor.greska){
