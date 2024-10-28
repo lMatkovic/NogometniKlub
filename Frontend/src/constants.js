@@ -16,7 +16,10 @@ export const RouteNames = {
 
     UTAKMICA_PREGLED: '/utakmice',
     UTAKMICA_NOVI: '/utakmice/dodaj',
-    UTAKMICA_PROMJENA: '/utakmice/:sifra'
+    UTAKMICA_PROMJENA: '/utakmice/:sifra',
+
+    LOGIN: '/login',
+    NADZORNA_PLOCA: '/nadzornaploca'
 
 }
 
