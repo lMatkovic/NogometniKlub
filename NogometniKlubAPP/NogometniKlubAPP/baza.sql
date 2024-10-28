@@ -1,4 +1,25 @@
-﻿
+﻿SELECT name, collation_name FROM sys.databases;
+GO
+ALTER DATABASE db_aad65d_nogometniklub SET SINGLE_USER WITH
+ROLLBACK IMMEDIATE;
+GO
+ALTER DATABASE db_aad65d_nogometniklub COLLATE Croatian_CI_AS;
+GO
+ALTER DATABASE db_aad65d_nogometniklub SET MULTI_USER;
+GO
+SELECT name, collation_name FROM sys.databases;
+GO
+
+
+create table operateri(
+sifra int not null primary key identity(1,1),
+email varchar(50) not null,
+lozinka varchar(200) not null
+);
+
+-- Lozinka edunova generirana pomoću https://bcrypt-generator.com/
+insert into operateri values ('klub@klub.hr',
+'$2a$12$BzzQan8Uqpu8fB5ytITl9uTYoJ5aEMBPcZivPqq9Np0YPy7pDmQkm');
 
 
 

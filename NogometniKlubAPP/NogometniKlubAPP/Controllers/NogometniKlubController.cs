@@ -1,24 +1,18 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NogometniKlubAPP.Data;
 
 namespace NogometniKlubAPP.Controllers
 {
-    public abstract class NogometniKlubController:ControllerBase
+
+    
+    [Authorize]
+    public abstract class NogometniKlubController(NogometniKlubContext context, IMapper mapper) : ControllerBase
     {
 
-       
-        protected readonly NogometniKlubContext _context;
-
-        protected readonly IMapper _mapper;
-
-
-       
-        public NogometniKlubController(NogometniKlubContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
-
+    
+        protected readonly NogometniKlubContext _context = context;
+        protected readonly IMapper _mapper = mapper;
     }
 }
