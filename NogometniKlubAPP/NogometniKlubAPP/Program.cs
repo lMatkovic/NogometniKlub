@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using NogometniKlubAPP.Data;
 using NogometniKlubAPP.Mapping;
 using System.Text;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
