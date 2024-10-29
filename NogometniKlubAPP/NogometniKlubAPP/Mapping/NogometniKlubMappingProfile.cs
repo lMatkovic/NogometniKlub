@@ -61,6 +61,16 @@ namespace NogometniKlubAPP.Mapping
                    opt => opt.MapFrom(src => src.Gostujuci.Naziv)
                );
 
+            CreateMap<Utakmica, UtakmicaDTOinsertUpdate>()
+               .ForCtorParam(
+                   "DomaciSifra",
+                   opt => opt.MapFrom(src => src.Domaci.Sifra)
+               )
+               .ForCtorParam(
+                   "GostujuciSifra",
+                   opt => opt.MapFrom(src => src.Gostujuci.Sifra)
+               );
+
 
             CreateMap<UtakmicaDTOinsertUpdate, Utakmica>()
                 .ForMember(dest => dest.Domaci, opt => opt.MapFrom(src => new Klub { Sifra = src.DomaciSifra }))
