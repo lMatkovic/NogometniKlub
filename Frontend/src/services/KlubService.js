@@ -59,6 +59,25 @@ async function getBySifra(sifra){
 }
 
 
+async function dostupniKlubovi(){
+    return await HttpService.get('/Pocetna/DostupniKlubovi')
+    .then((odgovor)=>{
+        //console.table(odgovor.data);
+        return odgovor.data;
+    })
+    .catch((e)=>{console.error(e)})
+}
+
+async function grafKluba(){
+    return await HttpService.get('/Klub/GrafKluba')
+    .then((odgovor)=>{
+        //console.table(odgovor.data);
+        return odgovor.data;
+    })
+    .catch((e)=>{console.error(e)})
+}
+
+
 
 
 
@@ -67,5 +86,10 @@ export default {
     brisanje,
     dodaj,
     getBySifra,
-    promjena
+    promjena,
+    dostupniKlubovi,
+    grafKluba
+    
+    
+    
 }

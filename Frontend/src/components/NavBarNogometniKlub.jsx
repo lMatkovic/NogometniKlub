@@ -18,7 +18,7 @@ export default function NavBarNogometniKlub(){
 
     return(
     <Navbar expand="lg" className="bg-body-tertiary">
-        <Navbar.Brand href="/">Nogometni Klub</Navbar.Brand>
+        <Navbar.Brand className='ruka' href="/">Nogometni Klub</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

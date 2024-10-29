@@ -97,6 +97,18 @@ async function getStranicenje(stranica,uvjet){
   }
 
 
+  async function Ukupnoigraca(){
+    return await HttpService.get('/Pocetna/Ukupnoigraca')
+    .then((odgovor)=>{
+        //console.table(odgovor.data);
+        return odgovor.data;
+    })
+    .catch((e)=>{console.error(e)})
+}
+
+
+
+
 
 
 export default{
@@ -108,8 +120,9 @@ export default{
 
     traziIgraca,
     getStranicenje,
-    postaviSliku
+    postaviSliku,
     
+    Ukupnoigraca
 
     
 }
