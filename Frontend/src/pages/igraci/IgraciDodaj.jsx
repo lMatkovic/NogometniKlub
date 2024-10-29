@@ -70,31 +70,31 @@ export default function IgraciDodaj() {
       <h2>Dodavanje novog igrača</h2>
 
       <Form onSubmit={obradiSubmit}>
-        {/* Ime */}
+       
         <Form.Group className="mb-3" controlId="ime">
           <Form.Label>Ime</Form.Label>
           <Form.Control type="text" name="ime" required />
         </Form.Group>
 
-        {/* Prezime */}
+        
         <Form.Group className="mb-3" controlId="prezime">
           <Form.Label>Prezime</Form.Label>
           <Form.Control type="text" name="prezime" required />
         </Form.Group>
 
-        {/* Datum rođenja */}
+      
         <Form.Group className="mb-3" controlId="datumRodjenja">
           <Form.Label>Datum rođenja</Form.Label>
           <Form.Control type="date" name="datumRodjenja" required />
         </Form.Group>
 
-        {/* Pozicija */}
+       
         <Form.Group className="mb-3" controlId="pozicija">
           <Form.Label>Pozicija</Form.Label>
           <Form.Control type="text" name="pozicija" required />
         </Form.Group>
 
-        {/* Broj dresa */}
+       
         <Form.Group className="mb-3" controlId="brojDresa">
           <Form.Label>Broj dresa</Form.Label>
           <Form.Control 
@@ -108,7 +108,7 @@ export default function IgraciDodaj() {
           />
         </Form.Group>
 
-        {/* Klub */}
+       
         <Form.Group className="mb-3" controlId="klub">
           <Form.Label>Klub</Form.Label>
           <Form.Select 
@@ -123,7 +123,7 @@ export default function IgraciDodaj() {
           </Form.Select>
         </Form.Group>
 
-        {/* Gumbi */}
+        
         <Row>
           <Col xs={6}>
             <Link to={RouteNames.IGRAC_PREGLED} className="btn btn-danger w-100">
