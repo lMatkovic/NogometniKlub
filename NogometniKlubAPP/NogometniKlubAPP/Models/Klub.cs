@@ -8,6 +8,7 @@
         public string? Predsjednik { get; set; }
         public string? Drzava { get; set; }
         public string? Liga { get; set; }
+        public ICollection<Igrac> Igraci { get; set; } = new List<Igrac>();
 
     }
 }

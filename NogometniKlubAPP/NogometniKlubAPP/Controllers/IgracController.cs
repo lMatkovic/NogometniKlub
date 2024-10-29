@@ -277,6 +277,36 @@ namespace NogometniKlubAPP.Controllers
             {
                 return BadRequest(e.Message);
             }
+
+
         }
+
+        [HttpGet]
+        [Route("Generiraj/{broj:int}")]
+        public IActionResult Generiraj(int broj)
+        {
+            Klub klubnaziv = _context.Klubovi.FirstOrDefault(); 
+            if (klubnaziv == null)
+            {
+                return BadRequest("Nije pronađen nijedan klub.");
+            }
+
+            for (int i = 0; i < broj; i++)
+            {
+                var p = new Igrac()
+                {
+                    Ime = Faker.Name.First(),
+                    Prezime = Faker.Name.Last(),
+                    DatumRodjenja = Faker.Identification.DateOfBirth(),
+                    Klub = klubnaziv 
+                };
+                _context.Igraci.Add(p);
+                _context.SaveChanges();
+            }
+            
+            return Ok(new { poruka = $"{broj} igrača je uspešno generiran." });
+        }
+
+
     }
 }

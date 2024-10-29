@@ -154,9 +154,27 @@ namespace NogometniKlubAPP.Controllers
                 }
             }
 
+        [HttpGet]
+        [Route("GrafKluba")]
+        public ActionResult<List<GrafKlubDTO>> GrafKlub()
+        {
+            try
+            {
+                return Ok(_mapper.Map<List<GrafKlubDTO>>(_context.Klubovi.Include(g => g.Igraci)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+
+        }
 
 
-       }
 
-    
+
+
+
+        }
+
+
 }

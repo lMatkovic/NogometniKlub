@@ -2,6 +2,7 @@
 using NogometniKlubAPP.Models;
 using NogometniKlubAPP.Models.DTO;
 using System.Text.RegularExpressions;
+using static NogometniKlubAPP.Models.DTO.GrafKlubDTO;
 
 namespace NogometniKlubAPP.Mapping
 {
@@ -66,8 +67,15 @@ namespace NogometniKlubAPP.Mapping
                 .ForMember(dest => dest.Gostujuci, opt => opt.MapFrom(src => new Klub { Sifra = src.GostujuciSifra }));
 
 
+          CreateMap<Klub, GrafKlubDTO>()
+          .ConstructUsing(entitet =>
+           new GrafKlubDTO(
+             entitet.Naziv ?? "",
+             entitet.Igraci == null ? 0 : entitet.Igraci.Count()));
 
-          
+
+
+
         }
 
         private static string? PutanjaDatoteke(Igrac e)
