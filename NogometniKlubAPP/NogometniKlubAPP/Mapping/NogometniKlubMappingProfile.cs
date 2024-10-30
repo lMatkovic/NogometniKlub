@@ -6,8 +6,14 @@ using static NogometniKlubAPP.Models.DTO.GrafKlubDTO;
 
 namespace NogometniKlubAPP.Mapping
 {
+    /// <summary>
+    /// Klasa za definiranje mapiranja između modela i DTO objekata.
+    /// </summary>
     public class NogometniKlubMappingProfile : Profile
     {
+        /// <summary>
+        /// Konstruktor u kojem se definiraju mapiranja.
+        /// </summary>
         public NogometniKlubMappingProfile()
         {
             // kreiramo mapiranja: izvor, odredište
@@ -87,7 +93,11 @@ namespace NogometniKlubAPP.Mapping
 
 
         }
-
+        /// <summary>
+        /// Metoda za dobivanje putanje do slike polaznika.
+        /// </summary>
+        /// <param name="e">Objekt polaznika.</param>
+        /// <returns>Putanja do slike ili null ako slika ne postoji.</returns>
         private static string? PutanjaDatoteke(Igrac e)
         {
             try

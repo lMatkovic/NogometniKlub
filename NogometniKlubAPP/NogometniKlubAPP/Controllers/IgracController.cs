@@ -10,13 +10,21 @@ using System.Text.RegularExpressions;
 
 namespace NogometniKlubAPP.Controllers
 {
+    /// <summary>
+    /// Kontroler za upravljanje igracima.
+    /// </summary>
+    /// <param name="context">Kontekst baze podataka.</param>
+    /// <param name="mapper">Mapper za mapiranje objekata.</param>
 
     [ApiController]
     [Route("api/v1/[controller]")]
     public class IgracController(NogometniKlubContext context, IMapper mapper) : NogometniKlubController(context, mapper)
     {
 
-
+        /// <summary>
+        /// Dohvaća sve igrace.
+        /// </summary>
+        /// <returns>Lista igraca.</returns>
 
         [HttpGet]
         public ActionResult<List<IgracDTORead>> Get()
@@ -36,7 +44,11 @@ namespace NogometniKlubAPP.Controllers
 
         }
 
-
+        /// <summary>
+        /// Dohvaća igrace prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra igraca.</param>
+        /// <returns>Polaznik.</returns>
         [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<IgracDTOinsertUpdate> GetBySifra(int sifra)
@@ -62,6 +74,11 @@ namespace NogometniKlubAPP.Controllers
             return Ok(_mapper.Map<IgracDTOinsertUpdate>(e));
         }
 
+        /// <summary>
+        /// Dodaje novog igraca.
+        /// </summary>
+        /// <param name="dto">Podaci o igracu.</param>
+        /// <returns>Status kreiranja.</returns>
         [HttpPost]
         public IActionResult Post(IgracDTOinsertUpdate dto)
         {
@@ -100,6 +117,13 @@ namespace NogometniKlubAPP.Controllers
 
 
         }
+
+        /// <summary>
+        /// Ažurira igraca prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra igrac.</param>
+        /// <param name="dto">Podaci o igracu.</param>
+        /// <returns>Status ažuriranja.</returns>
 
         [HttpPut]
         [Route("{sifra:int}")]
@@ -154,6 +178,11 @@ namespace NogometniKlubAPP.Controllers
 
         }
 
+        /// <summary>
+        /// Briše igrace prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra polaznika.</param>
+        /// <returns>Status brisanja.</returns>
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -188,6 +217,11 @@ namespace NogometniKlubAPP.Controllers
             }
         }
 
+        /// <summary>
+        /// Traži igrace prema uvjetu.
+        /// </summary>
+        /// <param name="uvjet">Uvjet pretrage.</param>
+        /// <returns>Lista igraca.</returns>
         [HttpGet]
         [Route("trazi/{uvjet}")]
         public ActionResult<List<IgracDTORead>> TraziIgrac(string uvjet)
@@ -214,7 +248,12 @@ namespace NogometniKlubAPP.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Traži igrace s paginacijom.
+        /// </summary>
+        /// <param name="stranica">Broj stranice.</param>
+        /// <param name="uvjet">Uvjet pretrage.</param>
+        /// <returns>Lista igraca.</returns>
         [HttpGet]
         [Route("traziStranicenje/{stranica}")]
         public IActionResult TraziIgracStranicenje(int stranica, string uvjet = "")
@@ -241,7 +280,12 @@ namespace NogometniKlubAPP.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Postavlja sliku za igraca.
+        /// </summary>
+        /// <param name="sifra">Šifra igraca.</param>
+        /// <param name="slika">Podaci o slici.</param>
+        /// <returns>Status postavljanja slike.</returns>
         [HttpPut]
         [Route("postaviSliku/{sifra:int}")]
         public IActionResult PostaviSliku(int sifra, SlikaDTO slika)
@@ -281,6 +325,11 @@ namespace NogometniKlubAPP.Controllers
 
         }
 
+        /// <summary>
+        /// Generira igrace.
+        /// </summary>
+        /// <param name="broj">Broj igraca za generiranje.</param>
+        /// <returns>Status generiranja.</returns>
         [HttpGet]
         [Route("Generiraj/{broj:int}")]
         public IActionResult Generiraj(int broj)

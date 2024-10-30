@@ -7,13 +7,30 @@ using NogometniKlubAPP.Models.DTO;
 
 namespace NogometniKlubAPP.Controllers
 {
+
+    /// <summary>
+    /// Kontroler za upravljanje utakmicama u aplikaciji.
+    /// Ovaj kontroler omogućuje CRUD operacije (stvaranje, čitanje, ažuriranje, brisanje) za utakmice.
+    /// </summary>
+    /// <remarks>
+    /// Kontroler koristi <see cref="NogometniKlubContext"/> za interakciju s bazom podataka
+    /// i <see cref="IMapper"/> za mapiranje između entiteta i DTO objekata.
+    /// </remarks>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class UtakmicaController : NogometniKlubController
-    {
+    {  /// <summary>
+       /// Inicijalizira novu instancu <see cref="UtakmicaController"/> klase.
+       /// </summary>
+       /// <param name="context">Instanca <see cref="NogometniKlubContext"/> koja se koristi za pristup bazi podataka.</param>
+       /// <param name="mapper">Instanca <see cref="IMapper"/> koja se koristi za mapiranje objekata.</param>
         public UtakmicaController(NogometniKlubContext context, IMapper mapper) : base(context, mapper) { }
+       
 
-        
+        /// <summary>
+        /// Dohvaća sve utakmice.
+        /// </summary>
+        /// <returns>Lista utakmice.</returns>
         [HttpGet]
         public ActionResult<List<UtakmicaDTORead>> Get()
         {
@@ -38,7 +55,11 @@ namespace NogometniKlubAPP.Controllers
             }
         }
 
-        
+        /// <summary>
+        /// Dohvaća utakmice prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra utakmica.</param>
+        /// <returns>utakmice.</returns>
         [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<UtakmicaDTORead> GetBySifra(int sifra)
@@ -68,7 +89,11 @@ namespace NogometniKlubAPP.Controllers
             }
         }
 
-        
+        /// <summary>
+        /// Dodaje nove utakmice.
+        /// </summary>
+        /// <param name="dto">Podaci o utakmici.</param>
+        /// <returns>Status kreiranja.</returns>
         [HttpPost]
         public IActionResult Post(UtakmicaDTOinsertUpdate dto)
         {
@@ -102,7 +127,12 @@ namespace NogometniKlubAPP.Controllers
             }
         }
 
-        
+        /// <summary>
+        /// Ažurira utakmice prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra utakmice.</param>
+        /// <param name="dto">Podaci o utakmici.</param>
+        /// <returns>Status ažuriranja.</returns>
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -147,7 +177,11 @@ namespace NogometniKlubAPP.Controllers
             }
         }
 
-        
+        /// <summary>
+        /// Briše utakmice prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra utakmica.</param>
+        /// <returns>Status brisanja.</returns>
         [HttpDelete]
         [Route("{sifra:int}")]
         public IActionResult Delete(int sifra)

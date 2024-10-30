@@ -7,12 +7,36 @@ using System.Text;
 
 namespace NogometniKlubAPP.Controllers
 {
+    /// <summary>
+    /// Kontroler za autorizaciju korisnika.
+    /// </summary>
+    /// <remarks>
+    /// Inicijalizira novu instancu klase <see cref="AutorizacijaController"/>.
+    /// </remarks>
+    /// <param name="context">Kontekst baze podataka.</param>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class AutorizacijaController(NogometniKlubContext context) : ControllerBase
     {
+        /// <summary>
+        /// Kontekst baze podataka
+        /// </summary>
         private readonly NogometniKlubContext _context = context;
 
+        /// <summary>
+        /// Generira token za autorizaciju.
+        /// </summary>
+        /// <param name="operater">DTO objekt koji sadrži email i lozinku operatera.</param>
+        /// <returns>JWT token ako je autorizacija uspješna, inače vraća status 403.</returns>
+        /// <remarks>
+        /// Primjer zahtjeva:
+        /// <code lang="json">
+        /// {
+        ///   "email": "klub@klub.hr",
+        ///   "password": "nogometniklub"
+        /// }
+        /// </code>
+        /// </remarks>
         [HttpPost("token")]
         public IActionResult GenerirajToken(OperaterDTO operater)
         {
@@ -51,4 +75,3 @@ namespace NogometniKlubAPP.Controllers
         }
     }
 }
-

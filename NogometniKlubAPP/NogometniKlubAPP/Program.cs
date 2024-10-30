@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using NogometniKlubAPP.Data;
+﻿using NogometniKlubAPP.Data;
+using NogometniKlubAPP.Extensions;
 using NogometniKlubAPP.Mapping;
-using System.Text;
-using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,90 +11,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddNogometniKlubSwaggerGen();
+builder.Services.AddNogometniKlubCORS();
 
 
-builder.Services.AddSwaggerGen(sgo =>
-{ // sgo je instanca klase SwaggerGenOptions
-
-
-    // SECURITY
-
-    sgo.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+// dodavanje baze podataka
+builder.Services.AddDbContext<NogometniKlubContext>(
+    opcije =>
     {
-        Description = @"JWT Autorizacija radi tako da se prvo na ruti /api/v1/Autorizacija/token.  
-                          autorizirate i dobijete token (bez navodnika). Upišite 'Bearer' [razmak] i dobiveni token.
-                          Primjer: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2OTc3MTc2MjksImV4cCI6MTY5Nzc0NjQyOSwiaWF0IjoxNjk3NzE3NjI5fQ.PN7YPayllTrWESc6mdyp3XCQ1wp3FfDLZmka6_dAJsY'",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-
-    sgo.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                  {
-                        {
-                          new OpenApiSecurityScheme
-                          {
-                            Reference = new OpenApiReference
-                              {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                              },
-                              Scheme = "oauth2",
-                              Name = "Bearer",
-                              In = ParameterLocation.Header,
-
-                            },
-                            new List<string>()
-                          }
-                    });
-
-    // END SECURITY
-
-});
-
-
-builder.Services.AddDbContext<NogometniKlubContext>(opcije => 
-{
-    opcije.UseSqlServer(builder.Configuration.GetConnectionString("NogometniKlubContext"));
-});
-
-
-
-builder.Services.AddCors(opcije =>
-{
-    opcije.AddPolicy("CorsPolicy",
-        builder =>
-            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+        opcije.UseSqlServer(builder.Configuration.GetConnectionString("NogometniKlubContext"));
+    }
     );
-});
 
 
-
-
+// automapper
 builder.Services.AddAutoMapper(typeof(NogometniKlubMappingProfile));
 
 
-//security
-// https://www.youtube.com/watch?v=mgeuh8k3I4g&ab_channel=NickChapsas
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x =>
-{
-    x.TokenValidationParameters = new TokenValidationParameters
-    {
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MojKljucKojijeJakoTajan i dovoljno dugačak da se može koristiti")),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = false
-    };
-});
+// SECURITY
+builder.Services.AddNogometniKlubSecurity();
 builder.Services.AddAuthorization();
-// endsecurity
+// END SECURITY
+
 
 
 var app = builder.Build();
@@ -105,30 +40,29 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
-    app.UseSwaggerUI(o => {
-
-        o.ConfigObject.AdditionalItems.Add("requestSnippetsEnabled", true);
-        o.EnableTryItOutByDefault();
-    
-    });
+app.UseSwagger();
+app.UseSwaggerUI(opcije => {
+    opcije.ConfigObject.AdditionalItems.Add("requestSnippetsEnabled", true);
+    opcije.EnableTryItOutByDefault();
+    opcije.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+});
 //}
 
 app.UseHttpsRedirection();
 
-
 // SECURITY
 app.UseAuthentication();
-// ENDSECURITY
-
 app.UseAuthorization();
+// ENDSECURITY
 
 app.MapControllers();
 
+// za potrebe produkcije
 app.UseStaticFiles();
 app.UseDefaultFiles();
 app.MapFallbackToFile("index.html");
 
 app.UseCors("CorsPolicy");
+// završio za potrebe produkcije
 
 app.Run();

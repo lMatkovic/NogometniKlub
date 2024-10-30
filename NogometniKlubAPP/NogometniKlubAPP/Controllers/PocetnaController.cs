@@ -6,13 +6,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NogometniKlubAPP.Controllers
 {
+    /// <summary>
+    /// Kontroler za početne operacije.
+    /// </summary>
+    /// <param name="_context">Kontekst baze podataka.</param>
+    /// <param name="_mapper">Mapper za mapiranje objekata.</param>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class PocetnaController(NogometniKlubContext _context, IMapper _mapper) : ControllerBase
     {
 
 
-
+        /// <summary>
+        /// Dohvaća dostupne klubove.
+        /// </summary>
+        /// <returns>Lista dostupnih klubova.</returns>
         [HttpGet]
         [Route("DostupniKlubovi")]
         public ActionResult<List<KlubDTORead>> DostupniKlubovi()
@@ -39,7 +47,10 @@ namespace NogometniKlubAPP.Controllers
         }
 
 
-
+        /// <summary>
+        /// Dohvaća ukupan broj igraca.
+        /// </summary>
+        /// <returns>Ukupan broj igraca.</returns>
         [HttpGet]
         [Route("Ukupnoigraca")]
         public IActionResult UkupnoIgraca()

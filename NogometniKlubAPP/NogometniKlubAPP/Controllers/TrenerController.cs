@@ -8,13 +8,21 @@ using System.Text.RegularExpressions;
 
 namespace NogometniKlubAPP.Controllers
 {
+    /// <summary>
+    /// Kontroler za upravljanje trenerima.
+    /// </summary>
+    /// <param name="context">Kontekst baze podataka.</param>
+    /// <param name="mapper">Mapper za mapiranje objekata.</param>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class TrenerController(NogometniKlubContext context, IMapper mapper) : NogometniKlubController(context, mapper)
     {
 
 
-        // RUTE
+        /// <summary>
+        /// Dohvaća sve trenere.
+        /// </summary>
+        /// <returns>Lista trenera.</returns>
         [HttpGet]
         public ActionResult<List<TrenerDTORead>> Get()
         {
@@ -33,7 +41,11 @@ namespace NogometniKlubAPP.Controllers
 
         }
 
-
+        /// <summary>
+        /// Dohvaća trenere prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra trenera.</param>
+        /// <returns>Trener.</returns>
         [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<TrenerDTOinsertUpdate> GetBySifra(int sifra)
@@ -58,7 +70,11 @@ namespace NogometniKlubAPP.Controllers
 
             return Ok(_mapper.Map<TrenerDTOinsertUpdate>(e));
         }
-
+        /// <summary>
+        /// Dodaje novog trenera.
+        /// </summary>
+        /// <param name="dto">Podaci o treneru.</param>
+        /// <returns>Status kreiranja.</returns>
         [HttpPost]
         public IActionResult Post(TrenerDTOinsertUpdate dto)
         {
@@ -97,7 +113,12 @@ namespace NogometniKlubAPP.Controllers
 
 
         }
-
+        /// <summary>
+        /// Ažurira trenera prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra trenera.</param>
+        /// <param name="dto">Podaci o treneru.</param>
+        /// <returns>Status ažuriranja.</returns>
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -150,7 +171,11 @@ namespace NogometniKlubAPP.Controllers
             }
 
         }
-
+        /// <summary>
+        /// Briše trenera prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra trenera.</param>
+        /// <returns>Status brisanja.</returns>
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]

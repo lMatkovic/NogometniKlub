@@ -2,6 +2,15 @@
 
 namespace NogometniKlubAPP.Models.DTO
 {
+    /// <summary>
+    /// DTO za unos i azuriranje kluba.
+    /// </summary>
+    /// <param name="Naziv">Naziv kluba.</param>
+    /// <param name="Osnovan">Kada je klub osnovan.</param>
+    /// <param name="Stadion">stadion kluba.</param>
+    /// <param name="Predsjednik">Predsjednik kluba.</param>
+    /// <param name="Drzava">Drzava kluba.</param>
+    /// <param name="Liga">Ligra kluba.</param>
     public record KlubDTOinsertUpdate(
         [Required(ErrorMessage = "Naziv obavezno")]
         string Naziv,

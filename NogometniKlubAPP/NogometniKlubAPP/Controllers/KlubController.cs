@@ -7,15 +7,22 @@ using NogometniKlubAPP.Models.DTO;
 
 namespace NogometniKlubAPP.Controllers
 {
-
-       [ApiController]
+    /// <summary>
+    /// Kontroler za upravljanje klubova u aplikaciji.
+    /// </summary>
+    /// <param name="context">Instanca EdunovaContext klase koja se koristi za pristup bazi podataka.</param>
+    /// <param name="mapper">Instanca IMapper sučelja koja se koristi za mapiranje objekata.</param>
+    [ApiController]
        [Route("api/v1/[controller]")]
        public class KlubController(NogometniKlubContext context, IMapper mapper) : NogometniKlubController(context, mapper)
        {
 
 
-            
-            [HttpGet]
+        /// <summary>
+        /// Dohvaća sve klubove.
+        /// </summary>
+        /// <returns>Lista DTO objekata klubova.</returns>
+        [HttpGet]
             public ActionResult<List<KlubDTORead>> Get()
             {
                 if (!ModelState.IsValid)
@@ -33,8 +40,12 @@ namespace NogometniKlubAPP.Controllers
 
             }
 
-
-            [HttpGet]
+        /// <summary>
+        /// Dohvaća klub prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra kluba.</param>
+        /// <returns>DTO objekt kluba.</returns>
+        [HttpGet]
             [Route("{sifra:int}")]
             public ActionResult<KlubDTORead> GetBySifra(int sifra)
             {
@@ -59,7 +70,12 @@ namespace NogometniKlubAPP.Controllers
                 return Ok(_mapper.Map<KlubDTORead>(e));
             }
 
-            [HttpPost]
+        /// <summary>
+        /// Dodaje novi klub.
+        /// </summary>
+        /// <param name="dto">DTO objekt za unos ili ažuriranje kluba.</param>
+        /// <returns>Status kreiranja i DTO objekt novog kluba.</returns>
+        [HttpPost]
             public IActionResult Post(KlubDTOinsertUpdate dto)
             {
                 if (!ModelState.IsValid)
@@ -82,7 +98,13 @@ namespace NogometniKlubAPP.Controllers
 
             }
 
-            [HttpPut]
+        /// <summary>
+        /// Ažurira postojeći klub prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra kluba.</param>
+        /// <param name="dto">DTO objekt za unos ili ažuriranje kluba.</param>
+        /// <returns>Status ažuriranja.</returns>
+        [HttpPut]
             [Route("{sifra:int}")]
             [Produces("application/json")]
             public IActionResult Put(int sifra, KlubDTOinsertUpdate dto)
@@ -120,7 +142,12 @@ namespace NogometniKlubAPP.Controllers
 
             }
 
-            [HttpDelete]
+        /// <summary>
+        /// Briše klub prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra kluba.</param>
+        /// <returns>Status brisanja.</returns>
+        [HttpDelete]
             [Route("{sifra:int}")]
             [Produces("application/json")]
             public IActionResult Delete(int sifra)
@@ -153,7 +180,10 @@ namespace NogometniKlubAPP.Controllers
                     return BadRequest(new { poruka = ex.Message });
                 }
             }
-
+        /// <summary>
+        /// Dohvaća graf kluba.
+        /// </summary>
+        /// <returns>Lista grafova kluba.</returns>
         [HttpGet]
         [Route("GrafKluba")]
         public ActionResult<List<GrafKlubDTO>> GrafKlub()
