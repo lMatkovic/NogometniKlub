@@ -57,33 +57,25 @@ namespace NogometniKlubAPP.Mapping
 
 
 
+            // Mapiranje Utakmica -> UtakmicaDTORead
             CreateMap<Utakmica, UtakmicaDTORead>()
-               .ForCtorParam(
-                   "DomaciNaziv",
-                   opt => opt.MapFrom(src => src.Domaci.Naziv)
-               )
-               .ForCtorParam(
-                   "GostujuciNaziv",
-                   opt => opt.MapFrom(src => src.Gostujuci.Naziv)
-               );
+                .ForCtorParam("DomaciNaziv", opt => opt.MapFrom(src => src.Domaci.Naziv))
+                .ForCtorParam("GostujuciNaziv", opt => opt.MapFrom(src => src.Gostujuci.Naziv))
+                .ForCtorParam("DomaciSifra", opt => opt.MapFrom(src => src.DomaciSifra))
+                .ForCtorParam("GostujuciSifra", opt => opt.MapFrom(src => src.GostujuciSifra));
 
+            // Mapiranje Utakmica -> UtakmicaDTOinsertUpdate
             CreateMap<Utakmica, UtakmicaDTOinsertUpdate>()
-               .ForCtorParam(
-                   "DomaciSifra",
-                   opt => opt.MapFrom(src => src.Domaci.Sifra)
-               )
-               .ForCtorParam(
-                   "GostujuciSifra",
-                   opt => opt.MapFrom(src => src.Gostujuci.Sifra)
-               );
+                .ForCtorParam("DomaciSifra", opt => opt.MapFrom(src => src.Domaci.Sifra))
+                .ForCtorParam("GostujuciSifra", opt => opt.MapFrom(src => src.Gostujuci.Sifra));
 
-
+            // Mapiranje UtakmicaDTOinsertUpdate -> Utakmica
             CreateMap<UtakmicaDTOinsertUpdate, Utakmica>()
                 .ForMember(dest => dest.Domaci, opt => opt.MapFrom(src => new Klub { Sifra = src.DomaciSifra }))
                 .ForMember(dest => dest.Gostujuci, opt => opt.MapFrom(src => new Klub { Sifra = src.GostujuciSifra }));
 
 
-          CreateMap<Klub, GrafKlubDTO>()
+            CreateMap<Klub, GrafKlubDTO>()
           .ConstructUsing(entitet =>
            new GrafKlubDTO(
              entitet.Naziv ?? "",

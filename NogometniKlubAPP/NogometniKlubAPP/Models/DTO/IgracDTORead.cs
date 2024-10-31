@@ -8,7 +8,7 @@
     /// <param name="Prezime">Prezime igraca.</param>
     /// <param name="KlubNaziv">klub igraca.</param>
     /// <param name="DatumRodjenja">Datum rodjenja igraca.</param>
-    /// <param name="Pozicija">OIB polaznika (opcionalno).</param>
+    /// <param name="Pozicija">Pozicija igraca .</param>
     /// <param name="BrojDresa">Broj dresa igraca.</param>
     /// <param name="Slika">URL slike igraca (opcionalno).</param>
     public record IgracDTORead(

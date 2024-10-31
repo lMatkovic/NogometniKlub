@@ -10,7 +10,6 @@ namespace NogometniKlubAPP.Controllers
 
     /// <summary>
     /// Kontroler za upravljanje utakmicama u aplikaciji.
-    /// Ovaj kontroler omogućuje CRUD operacije (stvaranje, čitanje, ažuriranje, brisanje) za utakmice.
     /// </summary>
     /// <remarks>
     /// Kontroler koristi <see cref="NogometniKlubContext"/> za interakciju s bazom podataka

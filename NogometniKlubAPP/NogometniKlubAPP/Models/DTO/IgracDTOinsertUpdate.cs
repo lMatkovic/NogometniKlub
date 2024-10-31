@@ -9,7 +9,7 @@ namespace NogometniKlubAPP.Models.DTO
     /// <param name="Prezime">Prezime igraca. Obavezno polje</param>
     /// <param name="KlubSifra">klub igraca. Obavezno polje</param>
     /// <param name="DatumRodjenja">Datum rodjenja igraca.Obavezno polje</param>
-    /// <param name="Pozicija">OIB polaznika.Obavezno polje</param>
+    /// <param name="Pozicija">Pozicija igraca.Obavezno polje</param>
     /// <param name="BrojDresa">Broj dresa igraca.Obavezno polje</param>
     
     public record IgracDTOinsertUpdate(
