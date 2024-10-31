@@ -163,9 +163,9 @@ export default function IgraciPromjena(){
                   <Form.Control type="text" name="pozicija" required defaultValue={igrac.pozicija} />
                 </Form.Group>
 
-                <Form.Group controlId="brojdresa">
+                <Form.Group controlId="brojDresa">
                     <Form.Label>Broj Dresa</Form.Label>
-                    <Form.Control type="number" name="brojdresa" required  defaultValue={igrac.brojdresa}/>
+                    <Form.Control type="number" name="brojDresa" required  defaultValue={igrac.brojDresa}/>
                 </Form.Group>
 
 

@@ -32,3 +32,8 @@
   .brojIgraca{
     font-size: 3rem;
   }
+
+  .alert {
+    margin-top: 20px; /* Razmak od forme */
+  }
+  

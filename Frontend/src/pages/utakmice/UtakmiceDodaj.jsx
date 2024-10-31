@@ -1,11 +1,11 @@
-import { Button, Col, Container, Form, Row} from 'react-bootstrap';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Service from '../../services/UtakmicaService';
 import KlubService from '../../services/KlubService';
 import { RouteNames } from '../../constants';
-import useLoading from "../../hooks/useLoading"
-
+import useLoading from "../../hooks/useLoading";
+import moment from "moment";  // Dodano
 
 export default function DodajUtakmicu() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function DodajUtakmicu() {
   const [domaciSifra, setDomaciSifra] = useState(0);
   const [gostujuciSifra, setGostujuciSifra] = useState(0);
 
-  async function dohvatiKlubove(){
+  async function dohvatiKlubove() {
     showLoading();
     const odgovor = await KlubService.get();
     hideLoading();
@@ -24,91 +24,95 @@ export default function DodajUtakmicu() {
     setGostujuciSifra(odgovor.poruka[0].sifra);
   }
 
-
-
-  useEffect(()=>{
+  useEffect(() => {
     dohvatiKlubove();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+  }, []);
 
   async function dodaj(e) {
     showLoading();
     const odgovor = await Service.dodaj(e);
     hideLoading();
-    if(odgovor.greska){
+    if (odgovor.greska) {
       alert(odgovor.poruka);
       return;
     }
     navigate(RouteNames.UTAKMICA_PREGLED);
   }
 
+  // Funkcija za formatiranje datuma
+  function formatirajDatum(datum) {
+    if (datum == null) {
+      return 'Nije definirano';
+    }
+    return moment.utc(datum).format('DD. MM. YYYY.');
+  }
+
   function obradiSubmit(e) {
     e.preventDefault();
 
     const podaci = new FormData(e.target);
+    const datum = podaci.get('datum');
 
+    // Ispisujemo formatirani datum na konzolu za provjeru
+    console.log("Formatirani datum:", formatirajDatum(datum));
 
     dodaj({
-        datum: podaci.get('datum'),
-        lokacija: podaci.get('lokacija'),
-        stadion: podaci.get('stadion'),
-        domaciSifra: parseInt(domaciSifra),
-        gostujuciSifra: parseInt(gostujuciSifra),
-        
+      datum: datum,  // Slanje u originalnom formatu za backend
+      lokacija: podaci.get('lokacija'),
+      stadion: podaci.get('stadion'),
+      domaciSifra: parseInt(domaciSifra),
+      gostujuciSifra: parseInt(gostujuciSifra),
     });
-}
+  }
 
-return (
+  return (
     <>
-        <h2>Dodavanje nove Utakmice</h2>
+      <h2>Dodavanje nove Utakmice</h2>
 
-        <Form onSubmit={obradiSubmit}>
-            <Form.Group controlId="datum">
-                <Form.Label>Datum</Form.Label>
-                <Form.Control type="date" name="datum" required />
-            </Form.Group>
+      <Form onSubmit={obradiSubmit}>
+        <Form.Group controlId="datum">
+          <Form.Label>Datum</Form.Label>
+          <Form.Control type="date" name="datum" required />
+        </Form.Group>
 
-            <Form.Group controlId="lokacija">
-                <Form.Label>Lokacija</Form.Label>
-                <Form.Control type="text" name="lokacija" required />
-            </Form.Group>
+        <Form.Group controlId="lokacija">
+          <Form.Label>Lokacija</Form.Label>
+          <Form.Control type="text" name="lokacija" required />
+        </Form.Group>
 
-            <Form.Group controlId="stadion">
-                <Form.Label>Stadion</Form.Label>
-                <Form.Control type="text" name="stadion" required />
-            </Form.Group>
+        <Form.Group controlId="stadion">
+          <Form.Label>Stadion</Form.Label>
+          <Form.Control type="text" name="stadion" required />
+        </Form.Group>
 
-            <Form.Group className='mb-3' controlId='domaciSifra'>
-                <Form.Label>Domaci Klub</Form.Label>
-                <Form.Select
-                    onChange={(e) => { setDomaciSifra(e.target.value) }}
-                >
-                    {klubovi && klubovi.map((klub, index) => (
-                        <option key={index} value={klub.sifra}>
-                            {klub.naziv}
-                        </option>
-                    ))}
-                </Form.Select>
-            </Form.Group>
+        <Form.Group className="mb-3" controlId="domaciSifra">
+          <Form.Label>Domaci Klub</Form.Label>
+          <Form.Select
+            onChange={(e) => { setDomaciSifra(e.target.value); }}
+          >
+            {klubovi && klubovi.map((klub, index) => (
+              <option key={index} value={klub.sifra}>
+                {klub.naziv}
+              </option>
+            ))}
+          </Form.Select>
+        </Form.Group>
 
+        <Form.Group className="mb-3" controlId="gostujuciSifra">
+          <Form.Label>Gostujuci Klub</Form.Label>
+          <Form.Select
+            onChange={(e) => { setGostujuciSifra(e.target.value); }}
+          >
+            {klubovi && klubovi.map((klub, index) => (
+              <option key={index} value={klub.sifra}>
+                {klub.naziv}
+              </option>
+            ))}
+          </Form.Select>
+        </Form.Group>
 
-            <Form.Group className='mb-3' controlId='gostujuciSifra'>
-                <Form.Label>Gostujuci Klub</Form.Label>
-                <Form.Select
-                    onChange={(e) => { setGostujuciSifra(e.target.value) }}
-                >
-                    {klubovi && klubovi.map((klub, index) => (
-                        <option key={index} value={klub.sifra}>
-                            {klub.naziv}
-                        </option>
-                    ))}
-                </Form.Select>
-            </Form.Group>
-
-
-          
-            <hr />
-            <Row>
+        <hr />
+        <Row>
           <Col xs={6}>
             <Link to={RouteNames.UTAKMICA_PREGLED} className="btn btn-danger w-100">
               Odustani
@@ -120,7 +124,7 @@ return (
             </Button>
           </Col>
         </Row>
-        </Form>
+      </Form>
     </>
-);
+  );
 }

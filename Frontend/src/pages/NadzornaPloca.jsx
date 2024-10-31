@@ -130,7 +130,7 @@ const fixedOptions = {
     type: 'pie',
   },
   title: {
-    text: 'Broj igraca po klubu',
+    text: 'Postotak igraca po klubu',
     align: 'left',
   },
   tooltip: {

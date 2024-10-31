@@ -5,6 +5,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useLoading from "../../hooks/useLoading";
+import moment from "moment";  // Dodano
 
 import Service from "../../services/UtakmicaService"; 
 import { RouteNames } from "../../constants";
@@ -15,10 +16,9 @@ export default function UtakmicePregled(){
     const { showLoading, hideLoading } = useLoading();
 
     async function dohvatiUtakmice(){
-        showLoading()
+        showLoading();
         await Service.get()
         .then((odgovor)=>{
-            //console.log(odgovor);
             setUtakmice(odgovor);
         })
         .catch((e)=>{console.log(e)});
@@ -28,8 +28,7 @@ export default function UtakmicePregled(){
     async function obrisiUtakmicu(sifra) {
         showLoading();
         const odgovor = await Service.obrisi(sifra);
-        hideLoading()
-        //console.log(odgovor);
+        hideLoading();
         if(odgovor.greska){
             alert(odgovor.poruka);
             return;
@@ -37,19 +36,22 @@ export default function UtakmicePregled(){
         dohvatiUtakmice();
     }
 
+    // Funkcija za formatiranje datuma
+    function formatirajDatum(datum) {
+        if (datum == null) {
+            return 'Nije definirano';
+        }
+        return moment.utc(datum).format('DD. MM. YYYY.');
+    }
+
     useEffect(()=>{
         dohvatiUtakmice();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
-
     return (
-
         <Container>
             <Link to={RouteNames.UTAKMICA_NOVI} className="btn btn-success siroko">
-                <IoIosAdd
-                size={25}
-                /> Dodaj
+                <IoIosAdd size={25} /> Dodaj
             </Link>
             <Table striped bordered hover responsive>
                 <thead>
@@ -63,41 +65,32 @@ export default function UtakmicePregled(){
                     </tr>
                 </thead>
                 <tbody>
-                    {utakmice && utakmice.map((entitet,index)=>(
+                    {utakmice && utakmice.map((entitet, index) => (
                         <tr key={index}>
-                            <td>{entitet.datum}</td>
+                            <td>{formatirajDatum(entitet.datum)}</td> {/* Koristimo formatirajDatum */}
                             <td>{entitet.lokacija}</td>
-                            <td>{entitet.stadion}</td>  
+                            <td>{entitet.stadion}</td>
                             <td>{entitet.domaciNaziv}</td>
                             <td>{entitet.gostujuciNaziv}</td>
                             <td className="sredina">
-                                    <Button
-                                        variant='primary'
-                                        onClick={()=>{navigate(`/utakmice/${entitet.sifra}`)}}
-
-                                        >
-                                        <FaEdit 
-                                    size={25}
-                                    />
-                                    </Button>
-                                
-                                    &nbsp;&nbsp;&nbsp;
-
-                                    <Button
-                                        variant='danger'
-                                        onClick={() => obrisiUtakmicu(entitet.sifra)}
-                                    >
-                                        <FaTrash
-                                        size={25}/>
-                                    </Button>
-
+                                <Button
+                                    variant='primary'
+                                    onClick={() => { navigate(`/utakmice/${entitet.sifra}`) }}
+                                >
+                                    <FaEdit size={25} />
+                                </Button>
+                                &nbsp;&nbsp;&nbsp;
+                                <Button
+                                    variant='danger'
+                                    onClick={() => obrisiUtakmicu(entitet.sifra)}
+                                >
+                                    <FaTrash size={25} />
+                                </Button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
         </Container>
-
     );
-
 }
