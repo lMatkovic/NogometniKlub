@@ -11,8 +11,6 @@ export default function NadzornaPloca() {
   const [podaci, setPodaci] = useState([]);
   const { showLoading, hideLoading } = useLoading();
 
-
-
   async function getPodaci() {
     showLoading();
     const odgovor = await Service.grafKluba();
@@ -29,12 +27,10 @@ export default function NadzornaPloca() {
     getPodaci();
   }, []);
 
-
   async function dodajIgraca(e) {
     const fn = e.player.firstname; 
     const ln = e.player.lastname;   
 
-    
     const klubovi = [
         { naziv: "FC Barcelona", sifra: 1 }, 
         { naziv: "Real Madrid", sifra: 2 }, 
@@ -44,13 +40,11 @@ export default function NadzornaPloca() {
 
     const pozicije = ["Napadač", "Srednji vezni", "Branič", "Golman"];
     
-    
     const randomKlubIndex = Math.floor(Math.random() * klubovi.length);
     const klub = klubovi[randomKlubIndex].naziv;
     const klubSifra = klubovi[randomKlubIndex].sifra; 
     const pozicija = pozicije[Math.floor(Math.random() * pozicije.length)];
 
-    
     const randomYear = Math.floor(Math.random() * (2005 - 1980)) + 1980; 
     const randomMonth = Math.floor(Math.random() * 12) + 1; 
     const randomDay = Math.floor(Math.random() * 28) + 1; 
@@ -70,11 +64,14 @@ export default function NadzornaPloca() {
         if (odgovor.greska) {
             alert(odgovor.poruka);
         }
+        return !odgovor.greska;  
     }
+    return false;  
 }
 
-function odradi(e) { 
+async function odradi(e) { 
     e.preventDefault(); 
+    showLoading();
     
     const service = axios.create({
         baseURL: "https://v3.football.api-sports.io",
@@ -83,73 +80,79 @@ function odradi(e) {
             'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
         }
     });
-   
-    service.get('/players/profiles')
-    .then((odgovor) => {
-       
-        odgovor.data.response.map(function(player) {
-            dodajIgraca(player);
+
+    let dodanoIgraca = 0; 
+
+    try {
+        const odgovor = await service.get('/players/profiles');
+        
+        const promises = odgovor.data.response.map(async (player) => {
+            const uspesnoDodano = await dodajIgraca(player);
+            if (uspesnoDodano) dodanoIgraca++; 
         });
-    })
-    .catch((e) => {
-        console.error(e); 
-    });
+
+        await Promise.all(promises); 
+        alert(`Ukupno dodano igrača: ${dodanoIgraca}`); 
+    } catch (error) {
+        console.error(error); 
+        alert('Dogodila se pogreška prilikom dodavanja igrača.');
+    } finally {
+        hideLoading();
+    }
 }
 
-
-
-    return (
-      <Container className='mt-4'>
+return (
+    <Container className='mt-4'>
         <Form onSubmit={odradi}>
-                <Button type="submit">Dodaj  igrače preko API</Button>
-            </Form>
-      {podaci.length > 0 && (
-        <PieChart
-          highcharts={Highcharts}
-          options={{
-            ...fixedOptions,
-            series: [
-              {
-                name: 'Igraci',
-                colorByPoint: true,
-                data: podaci,
-              },
-            ],
-          }}
-        />
-      )}
+            <Button type="submit">Dodaj igrače preko API</Button>
+        </Form>
+        {podaci.length > 0 && (
+            <PieChart
+                highcharts={Highcharts}
+                options={{
+                    ...fixedOptions,
+                    series: [
+                        {
+                            name: 'Igraci',
+                            colorByPoint: true,
+                            data: podaci,
+                        },
+                    ],
+                }}
+            />
+        )}
     </Container>
-  );
+);
 }
 
 const fixedOptions = {
-  chart: {
-    plotBackgroundColor: null,
-    plotBorderWidth: null,
-    plotShadow: false,
-    type: 'pie',
-  },
-  title: {
-    text: 'Postotak igraca po klubu',
-    align: 'left',
-  },
-  tooltip: {
-    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
-  },
-  accessibility: {
-    enabled: false,
-    point: {
-      valueSuffix: '%',
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie',
     },
-  },
-  plotOptions: {
-    pie: {
-      allowPointSelect: true,
-      cursor: 'pointer',
-      dataLabels: {
-        enabled: true,
-        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-      },
+    title: {
+        text: 'Postotak igraca po klubu',
+        align: 'left',
     },
-  },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+    },
+    accessibility: {
+        enabled: false,
+        point: {
+            valueSuffix: '%',
+        },
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+            },
+        },
+    },
 };
