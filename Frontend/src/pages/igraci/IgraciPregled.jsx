@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Pagination, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Pagination, Row, Spinner } from "react-bootstrap";
 import IgracService from "../../services/IgracService";
 import { useEffect, useState } from "react";
 import { APP_URL, RouteNames } from "../../constants";
@@ -13,12 +13,15 @@ export default function IgraciPregled() {
     const [selectedIgraci, setSelectedIgraci] = useState([]);
     const [stranica, setStranica] = useState(1);
     const [uvjet, setUvjet] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const { showLoading, hideLoading } = useLoading();
 
     async function dohvatiIgrace() {
+        setIsLoading(true);
         showLoading();
         const odgovor = await IgracService.getStranicenje(stranica, uvjet);
         hideLoading();
+        setIsLoading(false);
         if (odgovor.greska) {
             alert(odgovor.poruka);
             return;
@@ -75,6 +78,14 @@ export default function IgraciPregled() {
         );
     }
 
+    function handleSelectAll(e) {
+        if (e.target.checked) {
+            setSelectedIgraci(igraci.map((p) => p.sifra));
+        } else {
+            setSelectedIgraci([]);
+        }
+    }
+
     function povecajStranicu() {
         setStranica(stranica + 1);
     }
@@ -87,7 +98,7 @@ export default function IgraciPregled() {
 
     return (
         <>
-            <Row>
+            <Row className="mb-3">
                 <Col sm={12} lg={4} md={4}>
                     <Form.Control
                         type="text"
@@ -114,55 +125,73 @@ export default function IgraciPregled() {
                 </Col>
             </Row>
             
-            {selectedIgraci.length > 0 && (
-                <Button variant="danger" onClick={obrisiOdabraneIgrace} className="my-3">
-                    Obriši označene ({selectedIgraci.length})
-                </Button>
+            {isLoading && (
+                <div style={{ display: "flex", justifyContent: "center", margin: '1rem 0' }}>
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                </div>
             )}
             
-            <Row>
-                {igraci && igraci.map((p) => (
-                    <Col key={p.sifra} sm={12} lg={3} md={3}>
-                        <Card 
-                            style={{ 
-                                marginTop: '1rem',
-                                cursor: 'pointer',
-                                border: selectedIgraci.includes(p.sifra) ? '3px solid red' : '1px solid #ddd'
-                            }}
-                            onClick={() => handleSelectIgrac(p.sifra)}
-                        >
-                            <Card.Img variant="top" src={slika(p)} className="slika" />
-                            <Card.Body>
-                                <Card.Title>{p.ime} {p.prezime}</Card.Title>
-                                <Row>
-                                    <Col>
-                                        <Link className="btn btn-primary gumb" to={`/igraci/${p.sifra}`}>
-                                            <FaEdit />
-                                        </Link>
-                                    </Col>
-                                    <Col>
-                                        <Button variant="danger" className="gumb" onClick={(e) => {
-                                            e.stopPropagation(); 
-                                            obrisi(p.sifra);
-                                        }}>
-                                            <FaTrash />
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
-            
-            {igraci && igraci.length > 0 && (
-                <div style={{ display: "flex", justifyContent: "center", marginTop: '1rem' }}>
-                    <Pagination size="lg">
-                        <Pagination.Prev onClick={smanjiStranicu} />
-                        <Pagination.Item disabled>{stranica}</Pagination.Item>
-                        <Pagination.Next onClick={povecajStranicu} />
-                    </Pagination>
-                </div>
+            {!isLoading && igraci && igraci.length > 0 && (
+                <>
+                    <Row className="align-items-center">
+                        <Col>
+                            <Form.Check 
+                                type="checkbox" 
+                                label="Select All" 
+                                onChange={handleSelectAll} 
+                                checked={selectedIgraci.length === igraci.length} 
+                            />
+                        </Col>
+                        {selectedIgraci.length > 0 && (
+                            <Button variant="danger" onClick={obrisiOdabraneIgrace} className="my-3">
+                                Obriši označene ({selectedIgraci.length})
+                            </Button>
+                        )}
+                    </Row>
+                    
+                    <Row>
+                        {igraci.map((p) => (
+                            <Col key={p.sifra} sm={12} lg={3} md={3}>
+                                <Card 
+                                    style={{ 
+                                        marginTop: '1rem',
+                                        border: selectedIgraci.includes(p.sifra) ? '3px solid red' : '1px solid #ddd'
+                                    }}
+                                >
+                                    <Card.Img variant="top" src={slika(p)} className="slika" />
+                                    <Card.Body>
+                                        <Card.Title>{p.ime} {p.prezime}</Card.Title>
+                                        <Row>
+                                            <Col>
+                                                <Link className="btn btn-primary gumb" to={`/igraci/${p.sifra}`}>
+                                                    <FaEdit />
+                                                </Link>
+                                            </Col>
+                                            <Col>
+                                                <Button variant="danger" className="gumb" onClick={(e) => {
+                                                    e.stopPropagation(); 
+                                                    obrisiAsync(p.sifra);
+                                                }}>
+                                                    <FaTrash />
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
+                    
+                    <div style={{ display: "flex", justifyContent: "center", marginTop: '1rem' }}>
+                        <Pagination size="lg">
+                            <Pagination.Prev onClick={smanjiStranicu} />
+                            <Pagination.Item disabled>{stranica}</Pagination.Item>
+                            <Pagination.Next onClick={povecajStranicu} />
+                        </Pagination>
+                    </div>
+                </>
             )}
         </>
     );
