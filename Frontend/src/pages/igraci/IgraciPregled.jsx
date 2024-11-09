@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Pagination, Row, Spinner } from "react-bootstrap";
+import { Button, Card, Col, Form, Pagination, Row } from "react-bootstrap";
 import IgracService from "../../services/IgracService";
 import { useEffect, useState } from "react";
 import { APP_URL, RouteNames } from "../../constants";
@@ -13,15 +13,12 @@ export default function IgraciPregled() {
     const [selectedIgraci, setSelectedIgraci] = useState([]);
     const [stranica, setStranica] = useState(1);
     const [uvjet, setUvjet] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const { showLoading, hideLoading } = useLoading();
 
     async function dohvatiIgrace() {
-        setIsLoading(true);
         showLoading();
         const odgovor = await IgracService.getStranicenje(stranica, uvjet);
         hideLoading();
-        setIsLoading(false);
         if (odgovor.greska) {
             alert(odgovor.poruka);
             return;
@@ -125,15 +122,7 @@ export default function IgraciPregled() {
                 </Col>
             </Row>
             
-            {isLoading && (
-                <div style={{ display: "flex", justifyContent: "center", margin: '1rem 0' }}>
-                    <Spinner animation="border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </Spinner>
-                </div>
-            )}
-            
-            {!isLoading && igraci && igraci.length > 0 && (
+            {igraci && igraci.length > 0 && (
                 <>
                     <Row className="align-items-center">
                         <Col>
