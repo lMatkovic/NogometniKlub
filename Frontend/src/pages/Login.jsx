@@ -8,19 +8,31 @@ import useAuth from '../hooks/useAuth';
 export default function Login() {
   const { login } = useAuth();
   const [error, setError] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  function handleRememberMeChange(e) {
+    setRememberMe(e.target.checked);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    setError(''); // Resetuj grešku pre svakog pokušaja
+    setError('');
+    setLoading(true); 
 
     const podaci = new FormData(e.target);
     login({
       email: podaci.get('email'),
       password: podaci.get('lozinka'),
-    }).catch(err => {
-      // Postavi poruku greške
-      setError('Pogrešan email ili lozinka. Pokušajte ponovo.');
-    });
+      rememberMe: rememberMe, 
+    })
+      .then(() => {
+        setLoading(false); 
+      })
+      .catch(err => {
+        setLoading(false); 
+        setError('Pogrešan email ili lozinka. Pokušajte ponovo.');
+      });
   }
 
   return (
@@ -31,12 +43,12 @@ export default function Login() {
       <p className="text-muted">
         lozinka: nogometniklub
       </p>
-      {error && <Alert variant="danger">{error}</Alert>} {/* Prikaži grešku kao Alert */}
+      {error && <Alert variant="danger">{error}</Alert>} 
       <Form onSubmit={handleSubmit}>
         <Form.Group className='mb-3' controlId='email'>
           <Form.Label>Email</Form.Label>
           <Form.Control
-            type='email' // Koristi 'email' tip
+            type='email'
             name='email'
             placeholder='klub@klub.hr'
             maxLength={255}
@@ -47,8 +59,20 @@ export default function Login() {
           <Form.Label>Lozinka</Form.Label>
           <Form.Control type='password' name='lozinka' required />
         </Form.Group>
-        <Button variant='primary' className='gumb' type='submit'>
-          Autoriziraj
+        <Form.Group className='mb-3' controlId='rememberMe'>
+          <Form.Check 
+            type='checkbox' 
+            label='Zapamti me' 
+            checked={rememberMe} 
+            onChange={handleRememberMeChange} 
+          />
+        </Form.Group>
+        <Button variant='primary' className='gumb' type='submit' disabled={loading}>
+          {loading ? (
+            <span>Učitavanje...</span>
+          ) : (
+            'Autoriziraj'
+          )}
         </Button>
       </Form>
     </Container>
