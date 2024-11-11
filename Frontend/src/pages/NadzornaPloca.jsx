@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, Spinner } from 'react-bootstrap';
 import Highcharts from 'highcharts';
 import PieChart from 'highcharts-react-official';
 import Service from '../services/KlubService';
@@ -9,18 +9,26 @@ import IgracService from "../services/IgracService";
 
 export default function NadzornaPloca() {
   const [podaci, setPodaci] = useState([]);
+  const [isChartLoading, setIsChartLoading] = useState(true);
   const { showLoading, hideLoading } = useLoading();
 
   async function getPodaci() {
     showLoading();
-    const odgovor = await Service.grafKluba();
-    setPodaci(odgovor.map((klub) => {
-      return {
-        y: klub.ukupnoIgraca,
-        name: klub.nazivKluba,
-      };
-    }));
-    hideLoading();
+    setIsChartLoading(true);
+    try {
+      const odgovor = await Service.grafKluba();
+      setPodaci(odgovor.map((klub) => {
+        return {
+          y: klub.ukupnoIgraca,
+          name: klub.nazivKluba,
+        };
+      }));
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
+    } finally {
+      hideLoading();
+      setIsChartLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -106,20 +114,28 @@ return (
         <Form onSubmit={odradi}>
             <Button type="submit">Dodaj igrače preko API</Button>
         </Form>
-        {podaci.length > 0 && (
-            <PieChart
-                highcharts={Highcharts}
-                options={{
-                    ...fixedOptions,
-                    series: [
-                        {
-                            name: 'Igraci',
-                            colorByPoint: true,
-                            data: podaci,
-                        },
-                    ],
-                }}
-            />
+        {isChartLoading ? (
+            <div className="text-center mt-4">
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            </div>
+        ) : (
+            podaci.length > 0 && (
+                <PieChart
+                    highcharts={Highcharts}
+                    options={{
+                        ...fixedOptions,
+                        series: [
+                            {
+                                name: 'Igraci',
+                                colorByPoint: true,
+                                data: podaci,
+                            },
+                        ],
+                    }}
+                />
+            )
         )}
     </Container>
 );
