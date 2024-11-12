@@ -5,7 +5,7 @@ import Service from '../../services/UtakmicaService';
 import KlubService from '../../services/KlubService';
 import { RouteNames } from '../../constants';
 import useLoading from "../../hooks/useLoading";
-import moment from "moment";  // Dodano
+import moment from "moment";  
 
 export default function DodajUtakmicu() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function DodajUtakmicu() {
     navigate(RouteNames.UTAKMICA_PREGLED);
   }
 
-  // Funkcija za formatiranje datuma
+
   function formatirajDatum(datum) {
     if (datum == null) {
       return 'Nije definirano';

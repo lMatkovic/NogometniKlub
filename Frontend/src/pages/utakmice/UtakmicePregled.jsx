@@ -5,7 +5,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useLoading from "../../hooks/useLoading";
-import moment from "moment";  // Dodano
+import moment from "moment";  
 
 import Service from "../../services/UtakmicaService"; 
 import { RouteNames } from "../../constants";
@@ -36,7 +36,7 @@ export default function UtakmicePregled(){
         dohvatiUtakmice();
     }
 
-    // Funkcija za formatiranje datuma
+    
     function formatirajDatum(datum) {
         if (datum == null) {
             return 'Nije definirano';
@@ -67,7 +67,7 @@ export default function UtakmicePregled(){
                 <tbody>
                     {utakmice && utakmice.map((entitet, index) => (
                         <tr key={index}>
-                            <td>{formatirajDatum(entitet.datum)}</td> {/* Koristimo formatirajDatum */}
+                            <td>{formatirajDatum(entitet.datum)}</td> 
                             <td>{entitet.lokacija}</td>
                             <td>{entitet.stadion}</td>
                             <td>{entitet.domaciNaziv}</td>
