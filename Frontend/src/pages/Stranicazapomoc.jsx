@@ -46,12 +46,12 @@ export default function HelpPage() {
         <Accordion.Item eventKey="3">
           <Accordion.Header>Kako prijaviti grešku u aplikaciji?</Accordion.Header>
           <Accordion.Body>
-            Ako primetite grešku, možete je prijaviti putem obrasca ispod ili kontaktirati podršku na našoj email adresi.
+            Ako primjetite grešku, možete je prijaviti putem obrasca ispod ili kontaktirati podršku na našoj email adresi.
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
 
-      {/* Contact Form Section */}
+    
       <h3 className="mt-5">Kontaktirajte nas</h3>
       <p>Imate li pitanje ili želite prijaviti problem? Pošaljite nam poruku!</p>
       

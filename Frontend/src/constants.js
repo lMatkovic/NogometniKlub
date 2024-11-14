@@ -19,7 +19,8 @@ export const RouteNames = {
     UTAKMICA_PROMJENA: '/utakmice/:sifra',
 
     LOGIN: '/login',
-    NADZORNA_PLOCA: '/nadzornaploca'
+    NADZORNA_PLOCA: '/nadzornaploca',
+    STRANICA_ZA_POMOC: '/Stranicazapomoc'
 
 }
 

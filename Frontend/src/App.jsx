@@ -22,6 +22,9 @@ import LoadingSpinner from './components/LoadingSpinner'
 import Login from "./pages/Login"
 import useAuth from "./hooks/useAuth"
 import NadzornaPloca from './pages/NadzornaPloca'
+import Stranicazapomoc from './pages/Stranicazapomoc'
+
+
 
 
 
@@ -79,6 +82,8 @@ function App() {
         <Route path={RouteNames.UTAKMICA_PREGLED} element={<UtakmicePregled/>} />
         <Route path={RouteNames.UTAKMICA_NOVI} element={<UtakmiceDodaj/>} />
         <Route path={RouteNames.UTAKMICA_PROMJENA} element={<UtakmicePromjena/>} />
+
+        <Route path={RouteNames.STRANICA_ZA_POMOC} element={<Stranicazapomoc/>} />
         </>
         ) : (
           <>

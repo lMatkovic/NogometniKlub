@@ -35,6 +35,7 @@ export default function NavBarNogometniKlub(){
               </NavDropdown.Item>
               <NavDropdown.Item   onClick={()=>navigate(RouteNames.TRENER_PREGLED)}>Treneri</NavDropdown.Item>
               <NavDropdown.Item   onClick={()=>navigate(RouteNames.UTAKMICA_PREGLED)}>Utakmice</NavDropdown.Item>
+              <NavDropdown.Item   onClick={()=>navigate(RouteNames.STRANICA_ZA_POMOC)}>FAQ</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link onClick={()=>OpenSwaggerURL()}>Swagger</Nav.Link>
             <Nav.Link onClick={logout}>Odjava</Nav.Link>
