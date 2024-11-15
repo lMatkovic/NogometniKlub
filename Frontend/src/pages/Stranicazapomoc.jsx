@@ -38,10 +38,6 @@ export default function HelpPage() {
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey="2">
-          <Accordion.Header>Kako mogu pratiti omiljenog igrača?</Accordion.Header>
-          <Accordion.Body>
-            Na profilu igrača, kliknite na dugme "Dodaj u favorite" kako biste ga dodali na listu omiljenih.
-          </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey="3">
           <Accordion.Header>Kako prijaviti grešku u aplikaciji?</Accordion.Header>

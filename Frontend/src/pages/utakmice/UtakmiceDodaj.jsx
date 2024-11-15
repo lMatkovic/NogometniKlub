@@ -53,11 +53,11 @@ export default function DodajUtakmicu() {
     const podaci = new FormData(e.target);
     const datum = podaci.get('datum');
 
-    // Ispisujemo formatirani datum na konzolu za provjeru
+    
     console.log("Formatirani datum:", formatirajDatum(datum));
 
     dodaj({
-      datum: datum,  // Slanje u originalnom formatu za backend
+      datum: datum,  
       lokacija: podaci.get('lokacija'),
       stadion: podaci.get('stadion'),
       domaciSifra: parseInt(domaciSifra),
